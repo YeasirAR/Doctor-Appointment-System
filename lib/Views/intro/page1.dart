@@ -1,11 +1,47 @@
-import 'package:easy_lab/Views/intro/page2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../loginReg/login.dart';
 
-class PageOne extends StatelessWidget {
+class PageOne extends StatefulWidget {
   PageOne({Key? key}) : super(key: key);
+
+  @override
+  State<PageOne> createState() => _PageOneState();
+}
+
+class _PageOneState extends State<PageOne> {
+  final List<String> images = [
+    "assets/images/illustrations-02.png",
+    "assets/images/illustrations-03.png",
+    "assets/images/illustrations-04.png",
+    "assets/images/illustrations-05.png",
+  ];
+
+  final List<String> texts = [
+    "Hundreds of specialists get medical advice & treatment service from specialist doctor anytime.",
+    "Advice from nearest doctors. Find the doctors and make appointments.\n",
+    "Consult your problems with your doctors and easy to connect with better treatment.\n",
+    "24/7 doctor avaiability\n\n",
+  ];
+  int index = 0;
+  List<Color> colors = [
+    Color(0xFF4368FF),
+     Colors.black54,
+    Colors.black54,
+    Colors.black54,
+  ];
+  void alternateColor(int idx){
+    for(int i=0; i<4; i++){
+      if(i == idx){
+        colors[i] = Color(0xFF4368FF);
+      }
+      else{
+        colors[i] = Colors.black54;
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +56,7 @@ class PageOne extends StatelessWidget {
             Center(
               child: Image(
                 image: AssetImage(
-                    "assets/images/illustrations-02.png"
-                ),
+                    images[index]),
                 height: 250.h,
                 width: 250.w,
               ),
@@ -33,7 +68,7 @@ class PageOne extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 52.w),
               child: Center(
-                child: Text("Hundreds of specialists get medical advice & treatment service from specialist doctor anytime.",
+                child: Text(texts[index],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 13.sp,
@@ -48,20 +83,28 @@ class PageOne extends StatelessWidget {
 
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PageTwo(),),);
+                setState(() {
+                  if(index == 3){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Login(),),);
+                  }
+                  else{
+                    index++;
+                    alternateColor(index);
+                  }
+                });
               },
               child: Container(
                 height: 35.h,
                 width: 300.w,
                 decoration: BoxDecoration(
-                  color: Color(0xFF4368FF),
+                  color: const Color(0xFF4368FF),
                   borderRadius: BorderRadius.circular(10.h),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 5),
+                      offset: const Offset(0, 5),
                     ),
                   ],
                 ),
@@ -82,7 +125,7 @@ class PageOne extends StatelessWidget {
 
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),),);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const Login(),),);
               },
               child: Center(
                 child: Text("Skip",
@@ -105,7 +148,7 @@ class PageOne extends StatelessWidget {
                   height: 4.h,
                   width: 30.w,
                   decoration: BoxDecoration(
-                    color: Color(0xFF4368FF),
+                    color: colors[0],
                     borderRadius: BorderRadius.circular(10.h),
                   ),
                 ),
@@ -114,7 +157,7 @@ class PageOne extends StatelessWidget {
                   height: 4.h,
                   width: 30.w,
                   decoration: BoxDecoration(
-                    color: Colors.black54,
+                    color: colors[1],
                     borderRadius: BorderRadius.circular(10.h),
                   ),
                 ),
@@ -123,7 +166,7 @@ class PageOne extends StatelessWidget {
                   height: 4.h,
                   width: 30.w,
                   decoration: BoxDecoration(
-                    color: Colors.black54,
+                    color: colors[2],
                     borderRadius: BorderRadius.circular(10.h),
                   ),
                 ),
@@ -132,7 +175,7 @@ class PageOne extends StatelessWidget {
                   height: 4.h,
                   width: 30.w,
                   decoration: BoxDecoration(
-                    color: Colors.black54,
+                    color: colors[3],
                     borderRadius: BorderRadius.circular(10.h),
                   ),
                 ),

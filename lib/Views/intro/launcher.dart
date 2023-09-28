@@ -44,7 +44,7 @@ class _LauncherScreenState extends State<LauncherScreen> {
         builder: (context) => MyBottomBar(), // Replace with your main screen
       ));
     } else {
-      Timer(Duration(seconds: 2), () {
+      Timer(const Duration(seconds: 2), () {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (_) => const Intro(),
