@@ -16,6 +16,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String selectedMenuItem = '';
+  List<String> menuItems = ["Refferal Points", "Membership", "Discount", "Pharmacy","Health Tips"];
+  List<String> menuIcons = ["assets/images/menuperson.png", "assets/images/vip.png", "assets/images/discount.png", "assets/images/first-aid-kit.png", "assets/images/healthcare.png"];
+  List<Map<String, dynamic>> zipLists(List<String> list1, List<String> list2) {
+    List<Map<String, dynamic>> zippedList = [];
+    for (int i = 0; i < list1.length; i++) {
+      zippedList.add({
+        'text': list1[i],
+        'icon': list2[i],
+      });
+    }
+    return zippedList;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,12 +100,42 @@ class _HomeState extends State<Home> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeMenu(),
-                                  ),
-                                );
+                                showMenu(
+                                  context: context,
+                                  position: RelativeRect.fromLTRB(
+                                      MediaQuery.of(context).size.width,
+                                      70.h,
+                                      0,
+                                      0),
+                                  items: zipLists(menuItems, menuIcons).map((item) {
+                                return PopupMenuItem<String>(
+                                      value: item ['text'],
+                                      child: Row(
+                                        children: [
+                                          Image(
+                                            image: AssetImage(item['icon']),
+                                            color: Color(0xFF4368FF),
+                                            height: 25.h,
+                                            width: 25.h,
+                                          ),
+                                          SizedBox(
+                                            width: 30.w,
+                                          ),
+                                          Text(
+                                            item['text'],
+                                            style: TextStyle(fontSize: 16.sp),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ).then((value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      selectedMenuItem = value;
+                                    });
+                                  }
+                                });
                               },
                               child: Image(
                                 image: AssetImage("assets/images/menu.png"),
@@ -101,6 +144,7 @@ class _HomeState extends State<Home> {
                                 color: Colors.white,
                               ),
                             ),
+                            SizedBox(height: 20.h),
                           ],
                         ),
                       ],
@@ -282,35 +326,34 @@ class _HomeState extends State<Home> {
                           width: 10.w,
                         ),
                         InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => EasyPackage1()));
-                              },
-                              child: 
-                        Column(
-                          children: [
-                            Container(
-                              height: 100.h,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFE1E5F7),
-                                borderRadius: BorderRadius.circular(10.h),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(10.h),
-                                child: SvgPicture.asset(
-                                  'assets/images/Artboard 3.svg',
-                                  width: 100.w,
-                                  height: 100.h,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EasyPackage1()));
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 100.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFE1E5F7),
+                                  borderRadius: BorderRadius.circular(10.h),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.h),
+                                  child: SvgPicture.asset(
+                                    'assets/images/Artboard 3.svg',
+                                    width: 100.w,
+                                    height: 100.h,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Text(
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              Text(
                                 "Easy Health \nPackages",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -319,9 +362,8 @@ class _HomeState extends State<Home> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            
-                          ],
-                        ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
