@@ -3,6 +3,7 @@ import 'package:easy_lab/components/health_package/package1.dart';
 import 'package:easy_lab/Views/home/cart.dart';
 import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/notification.dart';
+import 'package:easy_lab/components/special_offers/offers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -376,37 +377,45 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Row(
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                              height: 100.h,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFE1E5F7),
-                                borderRadius: BorderRadius.circular(10.h),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(10.h),
-                                child: SvgPicture.asset(
-                                  'assets/images/Artboard 4.svg',
-                                  width: 100.w,
-                                  height: 100.h,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Offers()));
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 100.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFE1E5F7),
+                                  borderRadius: BorderRadius.circular(10.h),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.h),
+                                  child: SvgPicture.asset(
+                                    'assets/images/Artboard 4.svg',
+                                    width: 100.w,
+                                    height: 100.h,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Text(
-                              "Special \noffers",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF2553E5),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(
+                                height: 5.h,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "Special \noffers",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF2553E5),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           width: 10.w,

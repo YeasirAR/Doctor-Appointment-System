@@ -15,11 +15,6 @@ class EasyPackage1 extends StatefulWidget {
 }
 
 class _EasyPackage1State extends State<EasyPackage1> {
-  // final VoidCallback? onPressed = false ? () {} : null;
-  final List<String> textArray = [
-    'Item 1',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,6 +146,8 @@ class _EasyPackage1State extends State<EasyPackage1> {
                             ),
                             onPressed: () {
                               // Handle button press
+                              // pop to previous screen
+                              Navigator.pop(context);
                             },
                           ),
                           Container(
@@ -392,59 +389,100 @@ class _EasyPackage1State extends State<EasyPackage1> {
                 )
               ]),
             ),
-
-            Container(
-              padding:
-                  EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.h),
-                color: Color(0xFF4368FF),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black38.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 5),
-                  ),
-                ],
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(
+                    top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
+                backgroundColor: Color(0xFF4368FF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.h),
+                ),
               ),
               child: const Text(
                 '  Total: 2500/- ',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
-              height: 20.h,
+              height: 10.h,
             ),
-            Container(
-              padding:
-                  EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.h),
-                color: Color(0xFF4368FF),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black38.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 5),
-                  ),
-                ],
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(
+                    top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
+                backgroundColor: Color(0xFF4368FF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.h),
+                ),
               ),
               child: const Text(
-                '  Make an Appointment  ',
+                'Make an Appointment',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
               height: 20.h,
             ),
+            // Container(
+            //   padding:
+            //       EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(8.h),
+            //     color: Color(0xFF4368FF),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.black38.withOpacity(0.2),
+            //         spreadRadius: 5,
+            //         blurRadius: 7,
+            //         offset: Offset(0, 5),
+            //       ),
+            //     ],
+            //   ),
+            //   child: const Text(
+            //     '  Total: 2500/- ',
+            //     style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 14,
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 20.h,
+            // ),
+            // Container(
+            //   padding:
+            //       EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(8.h),
+            //     color: Color(0xFF4368FF),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.black38.withOpacity(0.2),
+            //         spreadRadius: 5,
+            //         blurRadius: 7,
+            //         offset: Offset(0, 5),
+            //       ),
+            //     ],
+            //   ),
+            //   child: const Text(
+            //     '  Make an Appointment  ',
+            //     style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 14,
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 20.h,
+            // ),
           ],
         ),
       ),
