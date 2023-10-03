@@ -96,7 +96,17 @@ Future<dynamic> makeAppoinment(Map<String, dynamic>? appoinmentInfo) async {
     }
   }
 
-  
-
+Future<dynamic> makeAppoinmentHealthPackage(Map<String, dynamic>? appoinmentInfo) async {
+    try {
+      Response response = await _dio.post(
+          'https://easylab.amarfuel.com/identity/v2/auth.php?Query=AppoinmentHealthPackage',
+          data: appoinmentInfo,
+          queryParameters: {'apikey': ApiSecret.apiKey},
+          options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+      return response.data;
+    } on DioException  catch (e) {
+      return e.response!.data;
+    }
+  }
 }
 

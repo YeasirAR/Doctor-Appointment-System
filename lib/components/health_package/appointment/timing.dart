@@ -1,25 +1,31 @@
 import 'package:easy_lab/Views/clock/visit_form.dart';
+import 'package:easy_lab/components/health_package/appointment/form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-class Clock extends StatefulWidget {
-  const Clock({Key? key}) : super(key: key);
+class AppointmentTime extends StatefulWidget {
+  final String packageName;
 
+  final String packageFee;
+
+  // const AppointmentTime({Key? key}) : super(key: key);
+  AppointmentTime({
+    required this.packageName,
+    required this.packageFee,
+  });
   @override
-  State<Clock> createState() => _ClockState();
+  State<AppointmentTime> createState() => _AppointmentTimeState();
 }
 
-class _ClockState extends State<Clock> {
+class _AppointmentTimeState extends State<AppointmentTime> {
   List<bool> isPressedListMonth = List.generate(7, (_) => false);
   List<bool> isPressedMorning = List.generate(7, (_) => false);
   List<bool> isPressedAfternoon = List.generate(7, (_) => false);
   List<bool> isPressedNight = List.generate(7, (_) => false);
   List<bool> isPressedSlot = List.generate(15, (_) => false);
 
-  String doctorName = "Mr X";
-  String appoinmentFee = "500";
   String appoinmentDate = "";
   String appoinmentSlot = "";
 
@@ -200,7 +206,7 @@ class _ClockState extends State<Clock> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Consultation fee",
+                                  "Package Fee",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Color(0xFF2553E5),
@@ -208,10 +214,10 @@ class _ClockState extends State<Clock> {
                                       fontSize: 16.sp),
                                 ),
                                 Text(
-                                  "৳500",
+                                  "৳${widget.packageFee}",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 38.sp, fontFamily: 'Helvetica'),
+                                      fontSize: 30.sp, fontFamily: 'Helvetica'),
                                 ),
                               ],
                             ),
@@ -518,17 +524,33 @@ class _ClockState extends State<Clock> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorForm(
-                        doctorName: doctorName,
-                        appoinmentFee: appoinmentFee,
-                        appoinmentDate: appoinmentDate,
-                        appoinmentSlot: appoinmentSlot,
+                  if (appoinmentDate == "" || appoinmentSlot == "") {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Please select a date and time',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        backgroundColor: Colors.red,
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AppointmentForm(
+                          packageName: widget.packageName,
+                          packageFee: widget.packageFee,
+                          appoinmentDate: appoinmentDate,
+                          appoinmentSlot: appoinmentSlot,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: Container(
                   height: 35.h,

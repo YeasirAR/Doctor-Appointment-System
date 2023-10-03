@@ -1,6 +1,7 @@
 import 'package:easy_lab/Views/home/all_doctors.dart';
-import 'package:easy_lab/components/health_package/package1.dart';
+import 'package:easy_lab/components/health_package/package.dart';
 import 'package:easy_lab/Views/home/cart.dart';
+import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/notification.dart';
 import 'package:easy_lab/components/special_offers/offers.dart';
@@ -331,7 +332,7 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EasyPackage1()));
+                                    builder: (context) => EasyPackage()));
                           },
                           child: Column(
                             children: [

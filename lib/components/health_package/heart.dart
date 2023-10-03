@@ -2,19 +2,20 @@ import 'package:easy_lab/Views/home/all_doctors.dart';
 import 'package:easy_lab/Views/home/cart.dart';
 import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/notification.dart';
+import 'package:easy_lab/components/health_package/appointment/timing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class Offers extends StatefulWidget {
-  const Offers({Key? key}) : super(key: key);
+class Heart extends StatefulWidget {
+  const Heart({Key? key}) : super(key: key);
 
   @override
-  State<Offers> createState() => _OffersState();
+  State<Heart> createState() => _HeartState();
 }
 
-class _OffersState extends State<Offers> {
+class _HeartState extends State<Heart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,15 +175,12 @@ class _OffersState extends State<Offers> {
                                     ),
                                   ],
                                 ),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(left: 40.0, right: 40.0),
-                                  child: Text(
-                                    'Special Offers',
-                                    style: TextStyle(
-                                      color: Color(0xFF4368FF),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                child: const Text(
+                                  '   Easy Health Packages   ',
+                                  style: TextStyle(
+                                    color: Color(0xFF4368FF),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -201,193 +199,36 @@ class _OffersState extends State<Offers> {
 
             //body
             Expanded(
-              child: Column(children: [
-                // SizedBox(
-                //   height: 35.h,
-                // ),
-                // Container(
-                //   padding:
-                //       EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(8.h),
-                //     color: Color(0xFF4368FF),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: Colors.black38.withOpacity(0.2),
-                //         spreadRadius: 5,
-                //         blurRadius: 7,
-                //         offset: Offset(0, 5),
-                //       ),
-                //     ],
-                //   ),
-                //   child: const Text(
-                //     '   Medinet Diabetic Health Check-up Package   ',
-                //     style: TextStyle(
-                //         color: Colors.white,
-                //         fontSize: 14,
-                //         fontWeight: FontWeight.bold),
-                //   ),
-                // ),
-                SizedBox(
-                  height: 35.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 25.0),
-                  child: Text(
-                    "Buy our membership card to enjoy 25% discount on all lab test around the year.",
-                    style: TextStyle(
-                        color: Color(0xFF4368FF),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold),
+              child: Column(
+                children: [
+                  SizedBox(height: 35.h),
+                  _buildPackageContainer(
+                      text: "Medinet cardiac (Heart) Health Check-up Package"),
+                  SizedBox(height: 35.h),
+                  _buildFeatureRow(
+                    icon: Icons.circle,
+                    text: "Ecg",
                   ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "2Hrs after Breakfast+CUS",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "OGTT",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "HbA1C",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "Creatinine",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "SGPT",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "CBC+ESR",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "Urine R/E",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 40.0, bottom: 7.0),
-                //   child: Row(
-                //     children: [
-                //       Icon(Icons.circle, size: 8, color: Color(0xFF4368FF)),
-                //       SizedBox(
-                //         width: 20.w,
-                //       ),
-                //       Text(
-                //         "ECG",
-                //         style: TextStyle(
-                //             color: Color(0xFF4368FF),
-                //             fontSize: 14.sp,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ],
-                //   ),
-                // )
-              ]),
+                  _buildFeatureRow(
+                    icon: Icons.circle,
+                    text: "Echocardiogram",
+                  ),
+                  _buildFeatureRow(icon: Icons.circle, text: "SOGT"),
+                  _buildFeatureRow(icon: Icons.circle, text: "Troponin-I"),
+                  _buildFeatureRow(
+                      icon: Icons.circle, text: "FBS (Fasting Blood Sugar)"),
+                  _buildFeatureRow(
+                      icon: Icons.circle, text: "Fast Lipid Profile"),
+                  _buildFeatureRow(icon: Icons.circle, text: "Creatinine"),
+                  _buildFeatureRow(icon: Icons.circle, text: "Electrolyte"),
+                  _buildFeatureRow(icon: Icons.circle, text: "CBC+ESR"),
+                  _buildFeatureRow(
+                      icon: Icons.circle,
+                      text: "Digital X-ray (Chest P/A view)"),
+                  SizedBox(height: 20.h),
+                ],
+              ),
             ),
-
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
@@ -399,7 +240,7 @@ class _OffersState extends State<Offers> {
                 ),
               ),
               child: const Text(
-                'Buy Membership Card',
+                '  Total: 3600/- ',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -407,11 +248,88 @@ class _OffersState extends State<Offers> {
               ),
             ),
             SizedBox(
-              height: 30.h,
+              height: 10.h,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AppointmentTime(
+                      packageName: "Medinet cardiac (Heart) Health Check-up Package",
+                      packageFee: "3600",
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(
+                    top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
+                backgroundColor: Color(0xFF4368FF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.h),
+                ),
+              ),
+              child: const Text(
+                'Make an Appointment',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 20.h,
             ),
           ],
         ),
       ),
     );
   }
+}
+
+Widget _buildFeatureRow({required IconData icon, required String text}) {
+  return Padding(
+    padding: EdgeInsets.only(left: 40.w, bottom: 7.h),
+    child: Row(
+      children: [
+        Icon(icon, size: 8.h, color: Color(0xFF4368FF)),
+        SizedBox(width: 20.w),
+        Text(
+          text,
+          style: TextStyle(
+            color: Color(0xFF4368FF),
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildPackageContainer({required String text}) {
+  return Container(
+    padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 15.h, bottom: 15.h),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8.h),
+      color: Color(0xFF4368FF),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black38.withOpacity(0.2),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: Offset(0, 5),
+        ),
+      ],
+    ),
+    child: Text(
+      text,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 13.sp,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
 }
