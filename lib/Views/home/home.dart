@@ -4,6 +4,7 @@ import 'package:easy_lab/Views/home/cart.dart';
 import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/notification.dart';
+import 'package:easy_lab/components/lab_test/lab_tests.dart';
 import 'package:easy_lab/components/special_offers/offers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -421,37 +422,45 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           width: 10.w,
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              height: 100.h,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFE1E5F7),
-                                borderRadius: BorderRadius.circular(10.h),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(10.h),
-                                child: SvgPicture.asset(
-                                  'assets/images/Artboard 5.svg',
-                                  width: 100.w,
-                                  height: 100.h,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LabTests()));
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 100.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFE1E5F7),
+                                  borderRadius: BorderRadius.circular(10.h),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.h),
+                                  child: SvgPicture.asset(
+                                    'assets/images/Artboard 5.svg',
+                                    width: 100.w,
+                                    height: 100.h,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Text(
-                              "Lab \nTest",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF2553E5),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(
+                                height: 5.h,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "Lab \nTest",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF2553E5),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           width: 10.w,
@@ -702,7 +711,7 @@ class _HomeState extends State<Home> {
                               height: 5.h,
                             ),
                             Text(
-                              "Heart",
+                              "Dental",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF2553E5),
