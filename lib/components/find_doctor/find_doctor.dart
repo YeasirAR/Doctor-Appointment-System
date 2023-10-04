@@ -31,7 +31,7 @@ class _FindDoctorState extends State<FindDoctor> {
     filteredDoctorNames.addAll(doctorNameTag.keys);
   }
 
-  void filterLabTests(String query) {
+  void filterDoctors(String query) {
     setState(() {
       filteredDoctorNames = doctorNameTag.keys
           .where((name) => name.toLowerCase().contains(query.toLowerCase()))
@@ -81,7 +81,8 @@ class _FindDoctorState extends State<FindDoctor> {
                                         builder: (context) => const Cart()));
                               },
                               child: Image(
-                                image: const AssetImage("assets/images/cart.png"),
+                                image:
+                                    const AssetImage("assets/images/cart.png"),
                                 height: 25.h,
                                 width: 25.w,
                                 color: Colors.white,
@@ -95,11 +96,13 @@ class _FindDoctorState extends State<FindDoctor> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Notifications()),
+                                      builder: (context) =>
+                                          const Notifications()),
                                 );
                               },
                               child: Image(
-                                image: const AssetImage("assets/images/bell.png"),
+                                image:
+                                    const AssetImage("assets/images/bell.png"),
                                 height: 25.h,
                                 width: 25.w,
                                 color: Colors.white,
@@ -118,7 +121,8 @@ class _FindDoctorState extends State<FindDoctor> {
                                 );
                               },
                               child: Image(
-                                image: const AssetImage("assets/images/menu.png"),
+                                image:
+                                    const AssetImage("assets/images/menu.png"),
                                 height: 25.h,
                                 width: 25.w,
                                 color: Colors.white,
@@ -219,7 +223,7 @@ class _FindDoctorState extends State<FindDoctor> {
                   children: [
                     SizedBox(height: 20.h),
                     Padding(
-                      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                      padding: const EdgeInsets.only(left: 35.0, right: 35.0),
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: 'Find by Name, Speciality',
@@ -228,12 +232,13 @@ class _FindDoctorState extends State<FindDoctor> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 5),
                         ),
                         onChanged: (value) {
                           setState(() {
                             searchValue = value;
-                            filterLabTests(
+                            filterDoctors(
                                 value); // Call the filtering function with the search query
                           });
                         },
@@ -259,76 +264,164 @@ class _FindDoctorState extends State<FindDoctor> {
                 ),
               ),
             ),
-            SizedBox(
+            // Expanded(
+            //   child: SingleChildScrollView(
+            //     child: Column(
+            //       children: [
+            //         SizedBox(height: 20.h),
+            //         Container(
+            //           decoration: BoxDecoration(
+            //             boxShadow: [
+            //               BoxShadow(
+            //                 color: Colors.black38.withOpacity(0.2),
+            //                 spreadRadius: 4,
+            //                 blurRadius: 20,
+            //                 offset: const Offset(0, 5),
+            //               ),
+            //             ],
+            //           ),
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(left: 80.0, right: 80.0),
+            //             child: TextField(
+            //               decoration: InputDecoration(
+            //                 hintText: 'Find by Name, Speciality',
+            //                 hintStyle: const TextStyle(color: Colors.white),
+            //                 prefixIcon: const Icon(Icons.search,
+            //                     size: 30, color: Colors.white),
+            //                 enabledBorder: OutlineInputBorder(
+            //                   borderRadius: BorderRadius.circular(8.0),
+            //                   borderSide: const BorderSide(
+            //                       color: Color.fromARGB(255, 49, 87, 238)),
+            //                 ),
+            //                 focusedBorder: OutlineInputBorder(
+            //                   borderRadius: BorderRadius.circular(8.0),
+            //                   borderSide: const BorderSide(
+            //                       color: Color.fromARGB(255, 49, 87, 238)),
+            //                 ),
+            //                 contentPadding:
+            //                     const EdgeInsets.symmetric(vertical: 5),
+            //                 fillColor: const Color.fromARGB(255, 49, 87, 238),
+            //                 filled: true,
+            //                 focusedErrorBorder: const UnderlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.white),
+            //                 ),
+            //                 enabled: true,
+            //                 errorBorder: const UnderlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.red),
+            //                 ),
+            //                 disabledBorder: const UnderlineInputBorder(
+            //                   borderSide: BorderSide(color: Colors.grey),
+            //                 ),
+            //               ),
+            //               style: const TextStyle(color: Colors.white),
+            //               cursorColor: Colors.white,
+            //               onChanged: (value) {
+            //                 setState(() {
+            //                   searchValue = value;
+            //                   filterDoctors(value);
+            //                 });
+            //               },
+            //             ),
+            //           ),
+            //         ),
+            //         SizedBox(height: 10.h),
+            //         ListView.builder(
+            //           shrinkWrap: true,
+            //           physics: const NeverScrollableScrollPhysics(),
+            //           itemCount: filteredDoctorNames.length,
+            //           itemBuilder: (context, index) {
+            //             final doctorName = filteredDoctorNames[index];
+            //             final doctorTag = doctorNameTag[doctorName];
+
+            //             return _buildFeatureRow(
+            //               text1: doctorName, // lab test name
+            //               text2: doctorTag, // lab test fee
+            //             );
+            //           },
+            //         ),
+            //         SizedBox(height: 20.h),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            
+            Visibility(
+              visible: !(MediaQuery.of(context).viewInsets.bottom > 0),
+              child: Column(
+                children: [
+                  SizedBox(
+                height: 18.h,
+              ),
+              //text
+              Text(
+                "Find us on Social Media",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF2553E5),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              //social
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/twitter.png",
+                    width: 18.w,
                     height: 18.h,
                   ),
-                  //text
-                  Text(
-                    "Find us on Social Media",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF2553E5),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
                   SizedBox(
-                    height: 10.h,
+                    width: 10.w,
                   ),
-                  //social
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/twitter.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/instagram.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/messenger.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/whatsapp.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/linkedin.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/gmail.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
+                  Image.asset(
+                    "assets/images/instagram.png",
+                    width: 18.w,
                     height: 18.h,
                   ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/messenger.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/whatsapp.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/linkedin.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/gmail.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 18.h,
+              ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -338,48 +431,46 @@ class _FindDoctorState extends State<FindDoctor> {
 
 Widget _buildFeatureRow({required String text1, required String? text2}) {
   return Padding(
-    padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 10.0),
-    child: Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Expanded(
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 10.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: const Icon(Icons.person, size: 50, color: Colors.grey),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start, 
-            children: [
-              SizedBox(height: 10.h),
-              Text(
-                text1,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: const Icon(Icons.person, size: 50, color: Colors.grey),
                 ),
-              ),
-              SizedBox(height: 5.h),
-              Text(
-                text2!,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 95, 95, 95),
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10.h),
+                    Text(
+                      text1,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    Text(
+                      text2!,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 95, 95, 95),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          const Icon(Icons.call, size: 40, color: Colors.grey),
         ],
-      ),
-    ),
-    const Icon(Icons.call, size: 40, color: Colors.grey),
-  ],
-)
-
-  );
+      ));
 }
 
 Widget _buildPackageContainer({required String text}) {

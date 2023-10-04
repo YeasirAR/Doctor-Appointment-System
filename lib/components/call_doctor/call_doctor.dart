@@ -31,7 +31,7 @@ class _CallDoctorState extends State<CallDoctor> {
     filteredDoctorNames.addAll(doctorNameTag.keys);
   }
 
-  void filterLabTests(String query) {
+  void filterDoctors(String query) {
     setState(() {
       filteredDoctorNames = doctorNameTag.keys
           .where((name) => name.toLowerCase().contains(query.toLowerCase()))
@@ -233,7 +233,7 @@ class _CallDoctorState extends State<CallDoctor> {
                     //     onChanged: (value) {
                     //       setState(() {
                     //         searchValue = value;
-                    //         filterLabTests(
+                    //         filterDoctors(
                     //             value); // Call the filtering function with the search query
                     //       });
                     //     },
@@ -259,76 +259,84 @@ class _CallDoctorState extends State<CallDoctor> {
                 ),
               ),
             ),
-            SizedBox(
+            Visibility(
+              visible: !(MediaQuery.of(context).viewInsets.bottom > 0),
+              child: Column(
+                children: [
+                  SizedBox(
+                height: 18.h,
+              ),
+              //text
+              Text(
+                "Find us on Social Media",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF2553E5),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              //social
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/twitter.png",
+                    width: 18.w,
                     height: 18.h,
                   ),
-                  //text
-                  Text(
-                    "Find us on Social Media",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF2553E5),
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
                   SizedBox(
-                    height: 10.h,
+                    width: 10.w,
                   ),
-                  //social
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/twitter.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/instagram.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/messenger.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/whatsapp.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/linkedin.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/gmail.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
+                  Image.asset(
+                    "assets/images/instagram.png",
+                    width: 18.w,
                     height: 18.h,
                   ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/messenger.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/whatsapp.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/linkedin.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    "assets/images/gmail.png",
+                    width: 18.w,
+                    height: 18.h,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 18.h,
+              ),
+                ],
+              ),
+            )
+          
           ],
         ),
       ),
