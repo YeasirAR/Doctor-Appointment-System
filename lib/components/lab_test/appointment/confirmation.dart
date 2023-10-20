@@ -7,28 +7,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConfirmAppoinment extends StatelessWidget {
   // const Confirmation({Key? key}) : super(key: key);
-  final String packageName;
-  final String packageFee;
+  // final String packageName;
+  // final String packageFee;
   final String appoinmentDate;
   final String appoinmentSlot;
   final String patientName;
   final String patientAgeYear;
   final String patientAgeMonth;
   final String patientWeight;
-  final String patientProblem;
-  final String patientReport;
+  final String sampleCollection;
+  final String address;
+  final String phoneNo;
+  List<String> selectedTestsNames;
+  int selectedPackageFee;
 
   ConfirmAppoinment({
-    required this.packageName,
-    required this.packageFee,
+    required this.selectedTestsNames,
+    required this.selectedPackageFee,
     required this.appoinmentDate,
     required this.appoinmentSlot,
     required this.patientName,
     required this.patientAgeYear,
     required this.patientAgeMonth,
     required this.patientWeight,
-    required this.patientProblem,
-    required this.patientReport,
+    required this.phoneNo,
+    required this.address,
+    required this.sampleCollection,
   });
 
   @override
@@ -61,7 +65,10 @@ class ConfirmAppoinment extends StatelessWidget {
             SizedBox(height: 30.h,),
             Center(child: Text("Thank You!", style: TextStyle(color:Color(0xFF2553E5), fontWeight: FontWeight.bold, fontSize: 18.sp),)),
             SizedBox(height: 10.h,),
-            Center(child: Text("You have booked an appointment for $packageName.", style: TextStyle(color:Color(0xFF2553E5), fontWeight: FontWeight.bold, fontSize: 12.sp),)),
+            Padding(
+              padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+              child: Center(child: Text("You have booked an appointment for ${selectedTestsNames.join(", ")}.", style: TextStyle(color:Color(0xFF2553E5), fontWeight: FontWeight.bold, fontSize: 12.sp),)),
+            ),
             SizedBox(height: 15.h,),
             Center(child: Text(
     "Your appointment is on $appoinmentDate at $appoinmentSlot.",

@@ -15,8 +15,9 @@ class ConfirmAppoinment extends StatelessWidget {
   final String patientAgeYear;
   final String patientAgeMonth;
   final String patientWeight;
-  final String patientProblem;
-  final String patientReport;
+  final String phoneNo;
+  final String address;
+  final String sampleCollection;
 
   ConfirmAppoinment({
     required this.packageName,
@@ -27,8 +28,9 @@ class ConfirmAppoinment extends StatelessWidget {
     required this.patientAgeYear,
     required this.patientAgeMonth,
     required this.patientWeight,
-    required this.patientProblem,
-    required this.patientReport,
+    required this.phoneNo,
+    required this.address,
+    required this.sampleCollection,
   });
 
   @override

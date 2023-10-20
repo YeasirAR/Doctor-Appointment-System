@@ -14,6 +14,7 @@ class Ultrasonography extends StatefulWidget {
   State<Ultrasonography> createState() => _UltrasonographyState();
 }
 
+// List<int> selectedTests = List<int>.generate(4, (i) => 0);
 class _UltrasonographyState extends State<Ultrasonography> {
   String searchValue = "";
   Map<String, String> labTests = {
@@ -22,6 +23,8 @@ class _UltrasonographyState extends State<Ultrasonography> {
     "Z": "4000",
     "W": "5000",
   };
+  // init the list of selected tests with all 0s
+  List<int> selectedTests = List<int>.generate(4, (i) => 0);
 
   List<String> filteredLabTestNames = [];
 
@@ -244,12 +247,67 @@ class _UltrasonographyState extends State<Ultrasonography> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: filteredLabTestNames.length,
                       itemBuilder: (context, index) {
-                        final testName = filteredLabTestNames[index];
-                        final testFee = labTests[testName];
+                        final text1 = filteredLabTestNames[index];
+                        final text2 = labTests[text1];
 
-                        return _buildFeatureRow(
-                          text1: testName, // lab test name
-                          text2: testFee, // lab test fee
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.w, vertical: 7.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceBetween, // Align text1 to the left and text2 to the right
+                            children: [
+                              Text(
+                                text1,
+                                style: TextStyle(
+                                  color: Color(0xFF4368FF),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Text(
+                                      text2!,
+                                      style: TextStyle(
+                                        color: Color(0xFF4368FF),
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (selectedTests[index] == 0) {
+                                          selectedTests[index] =
+                                              int.parse(text2);
+                                        } else {
+                                          selectedTests[index] = 0;
+                                        }
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.only(
+                                          left: 0.w, right: 0.w),
+                                      backgroundColor: selectedTests[index] == 0
+                                          ? Color(0xFF4368FF)
+                                          : Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.h),
+                                      ),
+                                    ),
+                                    child: Text(selectedTests[index] == 0
+                                        ? "Select"
+                                        : "Remove"),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -269,12 +327,23 @@ class _UltrasonographyState extends State<Ultrasonography> {
               visible: !(MediaQuery.of(context).viewInsets.bottom > 0),
               child: ElevatedButton(
                 onPressed: () {
+                  int selectedPackageFee = 0;
+                  for (int i = 0; i < selectedTests.length; i++) {
+                    selectedPackageFee += selectedTests[i];
+                  }
+                  List<String> selectedTestsNames = [];
+                  for (int i = 0; i < selectedTests.length; i++) {
+                    if (selectedTests[i] != 0) {
+                      selectedTestsNames.add(filteredLabTestNames[i]);
+                    }
+                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => AppointmentTime(
-                        packageName: "Ultrasonography Test",
-                        packageFee: "",
+                        selectedTestsNames: selectedTestsNames,
+                        selectedPackageFee: selectedPackageFee,
+                        
                       ),
                     ),
                   );
@@ -309,33 +378,57 @@ class _UltrasonographyState extends State<Ultrasonography> {
   }
 }
 
-Widget _buildFeatureRow({required String text1, required String? text2}) {
-  return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment
-          .spaceBetween, // Align text1 to the left and text2 to the right
-      children: [
-        Text(
-          text1,
-          style: TextStyle(
-            color: Color(0xFF4368FF),
-            fontSize: 14.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          text2!,
-          style: TextStyle(
-            color: Color(0xFF4368FF),
-            fontSize: 14.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
-  );
-}
+// Widget _buildFeatureRow({required String text1, required String? text2, required int index}) {
+//   return Padding(
+//     padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment
+//           .spaceBetween, // Align text1 to the left and text2 to the right
+//       children: [
+//         Text(
+//           text1,
+//           style: TextStyle(
+//             color: Color(0xFF4368FF),
+//             fontSize: 14.sp,
+//             fontWeight: FontWeight.bold,
+//           ),
+//         ),
+//         Row(
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.only(right: 10.0),
+//               child: Text(
+//                 text2!,
+//                 style: TextStyle(
+//                   color: Color(0xFF4368FF),
+//                   fontSize: 14.sp,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//             ),
+//             ElevatedButton(onPressed: () {
+//               setState(() {
+//                 if(selectedTests[index]==0){
+//                   selectedTests[index]=1;
+//                 }
+//                 else{
+//                   selectedTests[index]=0;
+//                 }
+//               });
+//             },style: ElevatedButton.styleFrom(
+//                   padding: EdgeInsets.only(
+//                      left: 0.w, right: 0.w),
+//                   backgroundColor: selectedTests[index]==0? Color(0xFF4368FF) : Colors.red,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(8.h),
+//                   ),
+//                 ), child: Text(selectedTests[index]==0? "Select" : "Remove"),)
+//           ],
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 Widget _buildPackageContainer({required String text}) {
   return Container(

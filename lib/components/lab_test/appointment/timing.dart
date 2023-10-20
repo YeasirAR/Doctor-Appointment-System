@@ -6,14 +6,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentTime extends StatefulWidget {
-  final String packageName;
-
-  final String packageFee;
+  // final String packageName;
+  List<String> selectedTestsNames;
+  int selectedPackageFee;
+  // final String packageFee;
 
   // const AppointmentTime({Key? key}) : super(key: key);
   AppointmentTime({
-    required this.packageName,
-    required this.packageFee,
+    required this.selectedTestsNames,
+    required this.selectedPackageFee,
   });
   @override
   State<AppointmentTime> createState() => _AppointmentTimeState();
@@ -214,7 +215,7 @@ class _AppointmentTimeState extends State<AppointmentTime> {
                                       fontSize: 16.sp),
                                 ),
                                 Text(
-                                  "৳${widget.packageFee}",
+                                  "৳${widget.selectedPackageFee}",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 30.sp, fontFamily: 'Helvetica'),
@@ -543,8 +544,8 @@ class _AppointmentTimeState extends State<AppointmentTime> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AppointmentForm(
-                          packageName: widget.packageName,
-                          packageFee: widget.packageFee,
+                          selectedTestsNames: widget.selectedTestsNames,
+                          selectedPackageFee: widget.selectedPackageFee,
                           appoinmentDate: appoinmentDate,
                           appoinmentSlot: appoinmentSlot,
                         ),
