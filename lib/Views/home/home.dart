@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:share_plus/share_plus.dart';
+
 
 import '../../Core/api_client.dart';
 
@@ -161,9 +163,7 @@ class _HomeState extends State<Home> {
 
 
   Future<void> GetUsersdata() async {
-
-
-
+    // Retrieving user data from storage
     String? userNameTmp = await storage.read(key: 'Name');
     String? userTypeTmp = await storage.read(key: 'User_Type');
     String? userPhoneTmp = await storage.read(key: 'Phone');
@@ -172,50 +172,55 @@ class _HomeState extends State<Home> {
       userName = userNameTmp;
       userPhone = userPhoneTmp!;
       userType = userTypeTmp!;
-      //FjsonString = jsonString!;
-
-
-
     });
 
+    // Processing the retrieved data
+    final String doctorsJson = jsonString ?? await DefaultAssetBundle.of(context).loadString('assets/JSON/Doctor_list.json');
 
+
+
+
+
+
+
+    final List<dynamic> doctorsData = json.decode(doctorsJson);
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text('Processing Data'),
+      backgroundColor: Colors.green.shade300,
+    ));
+
+    // Constructing user data map
+    Map<String, dynamic> userData = {
+      "Name": userName,
+      "Phone": userPhone
+    };
+
+    // Calling API to get users data
+    dynamic res = await _apiClient.GetUsersdata(userData);
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    // Handling API response
+    var response = json.decode(res);
+
+
+
+
+    if (response['ErrorCode'] == "200") {
+      // Updating local storage with received user data
+      await storage.write(key: 'Name', value: response['Name']);
+      await storage.write(key: 'Phone', value: response['Phone']);
+      await storage.write(key: 'Coin', value: response['Coin']);
+      await storage.write(key: 'Doctors', value: response['Doctors']);
+
+      //print(response['Doctors']);
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Processing Data'),
-        backgroundColor: Colors.green.shade300,
+        content: Text('Error: ${response['Message']}'),
+        backgroundColor: Colors.red.shade300,
       ));
-      Map<String, dynamic> userData = {
-        "Name": userName,
-        "Phone": userPhone,
-      };
-
-      dynamic res = await _apiClient.GetUsersdata(userData);
-
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-      var response = json.decode(res);
-      print("data" + _currentPosition.accuracy.toString() + response.toString() );
-      if (response['ErrorCode'] == "200") {
-
-        await storage.write(key: 'Name', value: response['Name']);
-
-        await storage.write(key: 'Phone', value: response['Phone']);
-        await storage.write(key: 'Coin', value: response['Coin']);
-        await storage.write(key: 'Doctors', value: response['Doctors']);
-
-
-        print(response['Doctors']);
-
-
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${response['Message']}'),
-          backgroundColor: Colors.red.shade300,
-        ));
-      }
-
-
-
-
+    }
   }
 
 
@@ -720,6 +725,12 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.h,
                     ),
+                    child: GestureDetector(
+                      onTap: () async {
+                        // Share the text when tapped
+
+                      // await Share.share('check out my website https://example.com');
+                      },
                     child: Container(
                       height: 80.h,
                       width: MediaQuery.of(context).size.width,
@@ -812,6 +823,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
+                  ),
                   ),
                   SizedBox(
                     height: 18.h,
@@ -1460,4 +1472,26 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+
+}
+
+
+
+
+
+
+
+SnackBar getResultSnackBar(ShareResult result) {
+  return SnackBar(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Share result: ${result.status}"),
+        if (result.status == ShareResultStatus.success)
+          Text("Shared to: ${result.raw}")
+      ],
+    ),
+  );
 }
