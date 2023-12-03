@@ -7,7 +7,7 @@ class ApiClient {
   Future<dynamic> registerUser(Map<String, dynamic>? data) async {
     try {
       Response response = await _dio.post(
-          'https://easylab.amarfuel.com/identity/v2/auth.php?Query=register',
+          'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=register',
           data: data,
           queryParameters: {'apikey': ApiSecret.apiKey},
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
@@ -20,7 +20,7 @@ class ApiClient {
   Future<dynamic> login(String email, String password) async {
     try {
       Response response = await _dio.post(
-        'https://easylab.amarfuel.com/identity/v2/auth.php?Query=login',
+        'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=login',
         data: {
           'Phone': email,
           'Password': password,
@@ -33,10 +33,32 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> getUserProfileData(String accessToken) async {
+
+
+
+  Future<dynamic> GetUsersdata(Map<String, dynamic>? data) async {
+    try {
+      Response response = await _dio.post(
+          'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=user',
+          data: data,
+          queryParameters: {'apikey': ApiSecret.apiKey},
+          options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+      return response.data;
+    } on DioException  catch (e) {
+      return e.response!.data;
+    }
+  }
+
+
+
+
+
+
+
+  Future<dynamic> SGetUsersdata(String accessToken) async {
     try {
       Response response = await _dio.get(
-        'https://api.loginradius.com/identity/v2/auth/account',
+        'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=user',
         queryParameters: {'apikey': ApiSecret.apiKey},
         options: Options(
           headers: {'Authorization': 'Bearer $accessToken'},
@@ -86,7 +108,7 @@ class ApiClient {
 Future<dynamic> makeAppoinment(Map<String, dynamic>? appoinmentInfo) async {
     try {
       Response response = await _dio.post(
-          'https://easylab.amarfuel.com/identity/v2/auth.php?Query=Appoinment',
+          'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=Appoinment',
           data: appoinmentInfo,
           queryParameters: {'apikey': ApiSecret.apiKey},
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
@@ -99,7 +121,7 @@ Future<dynamic> makeAppoinment(Map<String, dynamic>? appoinmentInfo) async {
 Future<dynamic> makeAppoinmentHealthPackage(Map<String, dynamic>? appoinmentInfo) async {
     try {
       Response response = await _dio.post(
-          'https://easylab.amarfuel.com/identity/v2/auth.php?Query=AppoinmentHealthPackage',
+          'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=AppoinmentHealthPackage',
           data: appoinmentInfo,
           queryParameters: {'apikey': ApiSecret.apiKey},
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));

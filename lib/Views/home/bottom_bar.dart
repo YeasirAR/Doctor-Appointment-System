@@ -4,6 +4,7 @@ import 'package:easy_lab/Views/home/home.dart';
 import 'package:easy_lab/Views/message/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../models/Appointment.dart';
 import '../person/person.dart';
 
 class MyBottomBar extends StatefulWidget {
@@ -14,15 +15,33 @@ class MyBottomBar extends StatefulWidget {
 class _MyBottomBarState extends State<MyBottomBar> {
   int _selectedIndex = 0;
 
+
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
+
+
+  String doctorName = "Mr X";
+  String appoinmentFee = "500";
+  String appoinmentDate = "";
+  String appoinmentSlot = "";
+  
+  
+ 
+  
+  
+
   static List<Widget> _pages = [
     Home(),
-    Clock(),
+    Clock(
+        Send:{
+
+        }
+    ),
     Heart(),
     Message(),
     Person(),

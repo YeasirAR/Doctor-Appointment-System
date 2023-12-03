@@ -1,68 +1,34 @@
-import 'dart:convert';
-
 import 'package:easy_lab/Views/home/cart.dart';
 import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class CallDoctor extends StatefulWidget {
-  const CallDoctor({Key? key}) : super(key: key);
+class Address extends StatefulWidget {
+  const Address({Key? key}) : super(key: key);
 
   @override
-  State<CallDoctor> createState() => _CallDoctorState();
+
+  State<Address> createState() => _Address();
 }
 
-class _CallDoctorState extends State<CallDoctor> {
-  String searchValue = "";
-  Map<String, String> doctorNameTag = {
-    "Abdul Hasan": "01943955579",
-    "Hasan Mahmud": "01774307401",
-    "Shah Newaz": "01943955579",
-    "Yeasir Arafat": "01774307401",
-    "Jubair Ahmed": "01943955579",
-  };
+class _Address extends State<Address> {
+
+  final double latitude = 23.8001645; // Replace with your latitude
+  final double longitude = 90.3668501; // Replace with your longitude
+  late String address = '770 Begum Rokeya Avenue, Dhaka';
 
 
-
-
-
-
-
-  List<String> filteredDoctorNames = [];
 
   @override
   void initState() {
     super.initState();
-    filteredDoctorNames.addAll(doctorNameTag.keys);
+
+
   }
-
-  void filterDoctors(String query) {
-    setState(() {
-      filteredDoctorNames = doctorNameTag.keys
-          .where((name) => name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
-
-
-
-
-
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
-    await launchUrl(launchUri);
-  }
-
-
-
 
 
   @override
@@ -101,14 +67,14 @@ class _CallDoctorState extends State<CallDoctor> {
                           children: [
                             InkWell(
                               onTap: () {
-                                _makePhoneCall("01774307401");
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const Cart()));
                               },
                               child: Image(
-                                image: const AssetImage("assets/images/cart.png"),
+                                image:
+                                const AssetImage("assets/images/cart.png"),
                                 height: 25.h,
                                 width: 25.w,
                                 color: Colors.white,
@@ -122,11 +88,13 @@ class _CallDoctorState extends State<CallDoctor> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const Notifications()),
+                                      builder: (context) =>
+                                      const Notifications()),
                                 );
                               },
                               child: Image(
-                                image: const AssetImage("assets/images/bell.png"),
+                                image:
+                                const AssetImage("assets/images/bell.png"),
                                 height: 25.h,
                                 width: 25.w,
                                 color: Colors.white,
@@ -145,7 +113,8 @@ class _CallDoctorState extends State<CallDoctor> {
                                 );
                               },
                               child: Image(
-                                image: const AssetImage("assets/images/menu.png"),
+                                image:
+                                const AssetImage("assets/images/menu.png"),
                                 height: 25.h,
                                 width: 25.w,
                                 color: Colors.white,
@@ -215,9 +184,9 @@ class _CallDoctorState extends State<CallDoctor> {
                                 ),
                                 child: const Padding(
                                   padding:
-                                      EdgeInsets.only(left: 60.0, right: 60.0),
+                                  EdgeInsets.only(left: 40.0, right: 40.0),
                                   child: Text(
-                                    'Call Doctor',
+                                    'Find Our Address',
                                     style: TextStyle(
                                       color: Color(0xFF4368FF),
                                       fontSize: 16,
@@ -240,132 +209,118 @@ class _CallDoctorState extends State<CallDoctor> {
             // ),
 
             //body
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.h),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                    //   child: TextField(
-                    //     decoration: InputDecoration(
-                    //       hintText: 'Find by Name, Speciality',
-                    //       prefixIcon: const Icon(Icons.search, size: 30),
-                    //       // alignLabelWithHint: true,
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(8.0),
-                    //       ),
-                    //       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-                    //     ),
-                    //     onChanged: (value) {
-                    //       setState(() {
-                    //         searchValue = value;
-                    //         filterDoctors(
-                    //             value); // Call the filtering function with the search query
-                    //       });
-                    //     },
-                    //   ),
-                    // ),
-                    // SizedBox(height: 10.h),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: filteredDoctorNames.length,
-                      itemBuilder: (context, index) {
-                        final doctorName = filteredDoctorNames[index];
-                        final doctorTag = doctorNameTag[doctorName];
-                        final phoneNumber = doctorNameTag[doctorName];
-
-                        return _buildFeatureRow(
-                          text1: doctorName, // lab test name
-                          text2: doctorTag,
-                         // phone : phoneNumber// lab test fee
-                        );
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                  ],
+           /* Expanded(
+              child: FlutterMap(
+                options: MapOptions(
+                  center: LatLng(latitude, longitude),
+                  zoom: 15.0,
                 ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate:
+                    'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}@2x?access_token=YOUR_MAPBOX_ACCESS_TOKEN',
+                    additionalOptions: {
+                      'accessToken':
+                      'YOUR_MAPBOX_ACCESS_TOKEN', // Replace with your Mapbox access token
+                      'id': 'mapbox.mapbox-streets-v8',
+                    },
+                  ),
+                  MarkerLayerOptions(
+                    markers: [
+                      Marker(
+                        width: 80.0,
+                        height: 80.0,
+                        point: LatLng(latitude, longitude),
+                        builder: (ctx) => Container(
+                          child: Icon(
+                            Icons.location_pin,
+                            color: Colors.red,
+                            size: 40.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
+            ),*/
             Visibility(
               visible: !(MediaQuery.of(context).viewInsets.bottom > 0),
               child: Column(
                 children: [
                   SizedBox(
-                height: 18.h,
-              ),
-              //text
-              Text(
-                "Find us on Social Media",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF2553E5),
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              //social
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/twitter.png",
-                    width: 18.w,
                     height: 18.h,
+                  ),
+                  //text
+                  Text(
+                    "Find us on Social Media",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFF2553E5),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   SizedBox(
-                    width: 10.w,
+                    height: 10.h,
                   ),
-                  Image.asset(
-                    "assets/images/instagram.png",
-                    width: 18.w,
-                    height: 18.h,
+                  //social
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/images/twitter.png",
+                        width: 18.w,
+                        height: 18.h,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Image.asset(
+                        "assets/images/instagram.png",
+                        width: 18.w,
+                        height: 18.h,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Image.asset(
+                        "assets/images/messenger.png",
+                        width: 18.w,
+                        height: 18.h,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Image.asset(
+                        "assets/images/whatsapp.png",
+                        width: 18.w,
+                        height: 18.h,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Image.asset(
+                        "assets/images/linkedin.png",
+                        width: 18.w,
+                        height: 18.h,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Image.asset(
+                        "assets/images/gmail.png",
+                        width: 18.w,
+                        height: 18.h,
+                      ),
+                    ],
                   ),
                   SizedBox(
-                    width: 10.w,
-                  ),
-                  Image.asset(
-                    "assets/images/messenger.png",
-                    width: 18.w,
                     height: 18.h,
                   ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Image.asset(
-                    "assets/images/whatsapp.png",
-                    width: 18.w,
-                    height: 18.h,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Image.asset(
-                    "assets/images/linkedin.png",
-                    width: 18.w,
-                    height: 18.h,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Image.asset(
-                    "assets/images/gmail.png",
-                    width: 18.w,
-                    height: 18.h,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
                 ],
               ),
             )
-          
           ],
         ),
       ),
@@ -374,97 +329,47 @@ class _CallDoctorState extends State<CallDoctor> {
 }
 
 Widget _buildFeatureRow({required String text1, required String? text2}) {
-
-
-  void initiatePhoneCall() async {
-    try {
-     // String phoneNumber = '+8801943955579'; // Replace with your phone number
-      //var phoneUrl = "tel:$phoneNumber";
-
-
-
-      final Uri launchUri = Uri(
-        scheme: 'tel',
-        path: text2,
-      );
-      await launchUrl(launchUri);
-    } catch (e) {
-      print('Error launching phone call: $e');
-      // Handle the error appropriately (e.g., show an error message to the user)
-    }
-  }
-
-
-
-
-  void initiateWhatsAppCall() async {
-    // You can change the phone number and message here
-    String? phoneNumber = text2; // Replace with your phone number
-    String message = 'Hello!'; // Your message
-    var whatsappUrl = "whatsapp://send?phone=$phoneNumber&text=$message";
-    //await launchUrl(Uri.parse(whatsappUrl));
-    if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
-      await launchUrl(Uri.parse(whatsappUrl));
-    } else {
-      // WhatsApp is not available, initiate a regular phone call
-      initiatePhoneCall();
-    }
-  }
-
-
-
-
-
-
-
-
   return Padding(
-    padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 10.0),
-    child: Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Expanded(
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 10.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Icon(Icons.person, size: 50, color: Colors.grey),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start, 
-            children: [
-              SizedBox(height: 10.h),
-              Text(
-                text1,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          Expanded(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: const Icon(Icons.person, size: 50, color: Colors.grey),
                 ),
-              ),
-              SizedBox(height: 5.h),
-              Text(
-                text2!,
-                style: const TextStyle(
-                  color: Color.fromARGB(255, 95, 95, 95),
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10.h),
+                    Text(
+                      text1,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                    Text(
+                      text2!,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 95, 95, 95),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          const Icon(Icons.call, size: 40, color: Colors.grey),
         ],
-      ),
-    ),
-
-        IconButton(
-              icon: Icon(Icons.call, size: 40, color: Colors.blueAccent),
-          onPressed: initiateWhatsAppCall,
-  ),
-  ],
-)
-
-  );
+      ));
 }
 
 Widget _buildPackageContainer({required String text}) {

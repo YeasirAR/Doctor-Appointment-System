@@ -2,6 +2,9 @@ import 'package:easy_lab/Views/home/homecall.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../clock/clock.dart';
+import '../models/Appointment.dart';
+
 
 
 class DoctorDetails extends StatelessWidget {
@@ -14,6 +17,7 @@ class DoctorDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         leading: IconButton(
@@ -108,6 +112,7 @@ class DoctorDetails extends StatelessWidget {
                               Text("(5)", style: TextStyle(fontSize: 13.sp),),
                             ],
                           ),
+
                         ],
                       ),
                     ],
@@ -116,7 +121,8 @@ class DoctorDetails extends StatelessWidget {
               ),
               SizedBox(height: 20.h,),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -149,30 +155,90 @@ class DoctorDetails extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 22.h,
-                      width: 90.w,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFD5DAF2),
-                        borderRadius: BorderRadius.circular(5.h),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 9,
-                            offset: Offset(0, 3),
+                    // Container(
+                    //   height: 22.h,
+                    //   width: 90.w,
+                    //   decoration: BoxDecoration(
+                    //     color: Color(0xFFD5DAF2),
+                    //     borderRadius: BorderRadius.circular(5.h),
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //         color: Colors.grey.withOpacity(0.5),
+                    //         spreadRadius: 2,
+                    //         blurRadius: 9,
+                    //         offset: Offset(0, 3),
+                    //       ),
+                    //     ],
+                    //   ),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Image(image: AssetImage('assets/images/zoom.png'), height: 15.h, width: 15.h, color: Color(0xFF2553E5),),
+                    //       SizedBox(width: 7.w,),
+                    //       Text("Video Call", style: TextStyle(color: Color(0xFF2553E5), fontSize: 12.sp, fontWeight: FontWeight.bold),),
+                    //     ],
+                    //   ),
+                    // ),
+
+
+                    InkWell(
+                      onTap: () {
+
+
+                        AppointDoctor Appoint = AppointDoctor(
+
+                            name: MjsonData['name'],
+                            specialty: MjsonData['specialty'],
+                            fee: 500,
+
+
+                        )   ;
+
+                        Map<String, dynamic> jsonData = Appoint.toJson();
+
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Clock(
+                                  Send:jsonData
+                              )
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image(image: AssetImage('assets/images/zoom.png'), height: 15.h, width: 15.h, color: Color(0xFF2553E5),),
-                          SizedBox(width: 7.w,),
-                          Text("Video Call", style: TextStyle(color: Color(0xFF2553E5), fontSize: 12.sp, fontWeight: FontWeight.bold),),
-                        ],
+                        );
+
+
+                      },
+                      child: Container(
+                        height: 20.h,
+                        width: 80.w,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF2553E5),
+                          borderRadius: BorderRadius.circular(8.h),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Appointment",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 13.0,),
+                          ),
+                        ),
                       ),
                     ),
+
+
+
+
+
+
+
+
                     Container(
                       height: 22.h,
                       width: 90.w,

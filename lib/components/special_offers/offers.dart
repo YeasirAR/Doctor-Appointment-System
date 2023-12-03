@@ -228,9 +228,7 @@ class _OffersState extends State<Offers> {
                 //         fontWeight: FontWeight.bold),
                 //   ),
                 // ),
-                SizedBox(
-                  height: 35.h,
-                ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 30.0, right: 25.0),
                   child: Text(
@@ -385,30 +383,263 @@ class _OffersState extends State<Offers> {
                 //     ],
                 //   ),
                 // )
+
+
+                SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 15.h),
+
+
+
+                        Padding(
+                          padding: EdgeInsets.only(left: 30.w, right: 25.w),
+                          child: SingleChildScrollView (
+                          child: Container(
+                            height: 160.h,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFE9EDFF),
+                              borderRadius: BorderRadius.circular(12.h),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  width: 145.w,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFD5DAF2),
+                                    borderRadius: BorderRadius.circular(12.h),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(20.h),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage("assets/images/doctor.png"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 15.w,),
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 10.h),
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("কার্ডিয়াক (হার্ট)", style: TextStyle(color: Color(0xFF2553E5), fontWeight: FontWeight.bold, fontSize: 15.sp),),
+                                              Text("-> ECG", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> Echocardiogram", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> Troponin-l ", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> FBS (Fasting Blood Sugar )", style: TextStyle(fontSize: 8.sp),),
+                                              Text("->  Fasting Lipid Profile", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> Creatinine", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> CBC+ESR", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> Digital X-Ray(Chest P/A view)", style: TextStyle(fontSize: 8.sp),),
+                                              Text("৭২৩০/-", style: TextStyle(fontSize: 12.sp,decoration: TextDecoration.lineThrough),),
+                                              Text("Total:৩৬০০/-", style: TextStyle(fontSize: 14.sp),),
+
+                                            ],
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 10.h,),
+
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.zero,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 75.w,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF2553E5),
+                                              borderRadius: BorderRadius.circular(5.h),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 5,
+                                                  offset: Offset(0, 3),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child:
+                                              Text("Appoinment",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 10.sp
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 15.w,),
+
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        ),
+
+                        SizedBox(height: 20.h),
+
+                        Padding(
+                          padding: EdgeInsets.only(left: 25.w, right: 25.w),
+                          child: SingleChildScrollView (
+                          child: Container(
+                            height: 160.h,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFE9EDFF),
+                              borderRadius: BorderRadius.circular(12.h),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  width: 145.w,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFD5DAF2),
+                                    borderRadius: BorderRadius.circular(12.h),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(20.h),
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage("assets/images/doctor.png"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 15.w,),
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 10.h),
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("হেপাটিক (লিভার)", style: TextStyle(color: Color(0xFF2553E5), fontWeight: FontWeight.bold, fontSize: 15.sp),),
+                                              Text("-> Total Bilirubin", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> SGPT", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> SGOT", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> ALP (Alkaline Phosphatase)", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> HbsAg", style: TextStyle(fontSize: 8.sp),),
+                                              Text("-> Anli HCV", style: TextStyle(fontSize: 8.sp),),
+                                              Text("৪৪৬০/-", style: TextStyle(fontSize: 12.sp,decoration: TextDecoration.lineThrough),),
+                                              Text("Total:২৫০০/-", style: TextStyle(fontSize: 14.sp),),
+                                            ],
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.zero,
+                                          child: Container(
+                                            height: 20.h,
+                                            width: 75.w,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF2553E5),
+                                              borderRadius: BorderRadius.circular(5.h),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 5,
+                                                  offset: Offset(0, 3),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child:
+                                              Text("Appoinment",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 10.sp
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        ),
+
+                        SizedBox(height: 20.h),
+
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.only(
+                                top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
+                            backgroundColor: Color(0xFF4368FF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.h),
+                            ),
+                          ),
+                          child: const Text(
+                            'Buy Membership Card',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+
+
+                      ],
+                    ),
+                  ),
+                ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               ]),
             ),
 
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(
-                    top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
-                backgroundColor: Color(0xFF4368FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.h),
-                ),
-              ),
-              child: const Text(
-                'Buy Membership Card',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
+
           ],
         ),
       ),

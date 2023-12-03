@@ -5,7 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class Clock extends StatefulWidget {
-  const Clock({Key? key}) : super(key: key);
+
+  final Map<String, dynamic>? Send; // Using nullable for the Send data
+
+
+  Clock({required this.Send});
+
+ // const Clock({Key? key, required Map<String, dynamic> Send}) : super(key: key);
+
 
   @override
   State<Clock> createState() => _ClockState();
@@ -18,10 +25,17 @@ class _ClockState extends State<Clock> {
   List<bool> isPressedNight = List.generate(7, (_) => false);
   List<bool> isPressedSlot = List.generate(15, (_) => false);
 
-  String doctorName = "Mr X";
+  String doctorName = "Doctor X";
   String appoinmentFee = "500";
   String appoinmentDate = "";
   String appoinmentSlot = "";
+
+
+
+
+
+
+
 
   void selectOptionMonth(int selectedIndex) {
     for (int index = 0; index < isPressedListMonth.length; index++) {
@@ -518,6 +532,16 @@ class _ClockState extends State<Clock> {
               ),
               InkWell(
                 onTap: () {
+
+
+
+                  doctorName = widget.Send?['name'] ?? "Doctor X";
+                  appoinmentFee = widget.Send?['fee'].toString() ?? "500";
+
+
+
+
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../info/Address/address.dart';
 import '../loginReg/login.dart';
 
 
@@ -19,6 +20,7 @@ class _PersonState extends State<Person> {
   String? userName = "";
   String? userPhone = "";
   String? userType = "";
+  String? userCoin = "6000";
 
 
 
@@ -34,10 +36,13 @@ class _PersonState extends State<Person> {
     String? userNameTmp = await storage.read(key: 'Name');
     String? userTypeTmp = await storage.read(key: 'User_Type');
     String? userPhoneTmp = await storage.read(key: 'Phone');
+    String? CoinPhoneTmp = await storage.read(key: 'Coin');
     setState(() {
       userName = userNameTmp;
       userPhone = userPhoneTmp!;
       userType = userTypeTmp!;
+      userCoin = CoinPhoneTmp!;
+
     });
 
    
@@ -90,14 +95,22 @@ class _PersonState extends State<Person> {
                     ),
 
                     Padding(
-                      padding: EdgeInsets.only(left: 120.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      padding: EdgeInsets.only(left: 45.w),
+                      child: Row(
                         children: [
-                          Image(image: AssetImage('assets/images/pencil.png'), color: Colors.white, height: 15.h, width: 15.h,),
+                          Center(
+                            child: Text(userCoin!, style: TextStyle(fontSize: 25.sp, color: Colors.white)),
+                          ),
+                          SizedBox(width: 2.w), // Add some spacing between the text and the image
+                          Image(
+                            image: AssetImage('assets/images/coin.png'),
+                            height: 35.h,
+                            width: 35.h,
+                          ),
                         ],
                       ),
-                    ),
+                    )
+
                   ],
                 ),
               ),
@@ -138,20 +151,38 @@ class _PersonState extends State<Person> {
             SizedBox(height: 20.h,),
 
             //address
-            Padding(
-              padding: EdgeInsets.only(left: 20.w,),
-              child: Row(
-                children: [
-                  Image(image: AssetImage('assets/images/address.png'), color: Color(0xFF2553E5), height: 25.h, width: 25.h,),
-                  SizedBox(width: 30.w,),
-                  Text("Address", style: TextStyle(fontSize: 16.sp),),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
-                  SizedBox(width: 15.w,),
-                ],
-              ),
+        Padding(
+          padding: EdgeInsets.only(left: 20.w),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Address()),
+              );
+            },
+            child: Row(
+              children: [
+                Image(
+                  image: AssetImage('assets/images/address.png'),
+                  color: Color(0xFF2553E5),
+                  height: 25.h,
+                  width: 25.h,
+                ),
+                SizedBox(width: 30.w),
+                Text(
+                  "Address",
+                  style: TextStyle(fontSize: 16.sp),
+                ),
+                Spacer(),
+                Icon(Icons.arrow_forward_ios),
+                SizedBox(width: 15.w),
+              ],
             ),
-            SizedBox(height: 20.h,),
+          ),
+        ),
+
+
+        SizedBox(height: 20.h,),
 
             //payment method
             Padding(

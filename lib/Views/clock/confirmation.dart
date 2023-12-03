@@ -17,6 +17,7 @@ class Confirmation extends StatelessWidget {
   final String patientWeight;
   final String patientProblem;
   final String patientReport;
+  final String referral;
 
   Confirmation({
     required this.doctorName,
@@ -29,6 +30,7 @@ class Confirmation extends StatelessWidget {
     required this.patientWeight,
     required this.patientProblem,
     required this.patientReport,
+    required this.referral,
   });
 
   @override

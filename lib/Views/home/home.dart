@@ -1,17 +1,23 @@
+import 'dart:convert';
+
 import 'package:easy_lab/Views/home/all_doctors.dart';
 import 'package:easy_lab/components/call_doctor/call_doctor.dart';
 import 'package:easy_lab/components/find_doctor/find_doctor.dart';
 import 'package:easy_lab/components/health_package/package.dart';
 import 'package:easy_lab/Views/home/cart.dart';
-import 'package:easy_lab/Views/home/home_menu.dart';
-import 'package:easy_lab/Views/home/home_menu.dart';
 import 'package:easy_lab/Views/home/notification.dart';
 import 'package:easy_lab/components/lab_test/lab_tests.dart';
 import 'package:easy_lab/components/special_offers/offers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:share_plus/share_plus.dart';
+
+
+import '../../Core/api_client.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,6 +27,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+    Position _currentPosition = Position(
+    latitude: 0.0,
+    longitude: 0.0,
+    altitude: 0.0,
+    accuracy: 0.0,
+    speed: 0.0,
+    speedAccuracy: 0.0,
+    heading: 0.0,
+    timestamp: DateTime.now(),
+    altitudeAccuracy: 0.0,
+    headingAccuracy: 0.0, // Provide a default value for altitudeAccuracy
+  );
+
+
+
+  final ApiClient _apiClient = ApiClient();
+
+  final storage = FlutterSecureStorage();
+  bool isLoading = true;
+  String? userName = "";
+  String? userPhone = "";
+  String? userType = "";
+  String? userCoin = "6000";
+  String? FjsonString = "";
+
+
+
+
   String selectedMenuItem = '';
   List<String> menuItems = ["Refferal Points", "Membership", "Discount", "Pharmacy","Health Tips"];
   List<String> menuIcons = ["assets/images/menuperson.png", "assets/images/vip.png", "assets/images/discount.png", "assets/images/first-aid-kit.png", "assets/images/healthcare.png"];
@@ -34,11 +68,176 @@ class _HomeState extends State<Home> {
     }
     return zippedList;
   }
+
+
+
+
+  @override
+  void initState() {
+
+   // _checkLocationPermission();
+    GetUsersdata();
+    super.initState();
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+    Future<void> _checkLocationPermission() async {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        await _requestLocationPermission();
+      } else if (permission == LocationPermission.deniedForever) {
+        // Handle the case where the user has permanently denied location permission
+        print("Location permission permanently denied");
+      } else {
+        _getLocation();
+      }
+    }
+
+    Future<void> _requestLocationPermission() async {
+      LocationPermission permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Handle the case where the user denied location permission
+        print("Location permission denied");
+      } else if (permission == LocationPermission.deniedForever) {
+        // Handle the case where the user permanently denied location permission
+        print("Location permission permanently denied");
+      } else {
+        _getLocation();
+      }
+    }
+
+    Future<void> _getLocation() async {
+
+    print(" getting location: ");
+    try {
+      Geolocator.getPositionStream().listen((Position position) {
+        setState(() {
+          _currentPosition = position;
+        });
+
+         storage.write(key: 'Latitude', value: position.latitude.toString());
+         storage.write(key: 'Longitude', value: position.longitude.toString());
+         storage.write(key: 'Accuracy', value: position.accuracy.toString());
+        print("Latitude: ${position.latitude}");
+        print("Longitude: ${position.longitude}");
+        print("Accuracy: ${position.accuracy}");
+      });
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
+
+
+
+
+
+
+
+
+
+/*
+  Future<void> _refresh() async {
+
+    await Future.delayed(Duration(seconds: 2));
+
+    // Update the UI with the new data or any changes
+    setState(() {
+      // Example: Add new items to the list
+      GetUsersdata();
+    });
+  }
+*/
+
+
+  Future<void> GetUsersdata() async {
+    // Retrieving user data from storage
+    String? userNameTmp = await storage.read(key: 'Name');
+    String? userTypeTmp = await storage.read(key: 'User_Type');
+    String? userPhoneTmp = await storage.read(key: 'Phone');
+    String? jsonString = await storage.read(key: 'Doctors');
+    setState(() {
+      userName = userNameTmp;
+      userPhone = userPhoneTmp!;
+      userType = userTypeTmp!;
+    });
+
+    // Processing the retrieved data
+    final String doctorsJson = jsonString ?? await DefaultAssetBundle.of(context).loadString('assets/JSON/Doctor_list.json');
+
+
+
+
+
+
+
+    final List<dynamic> doctorsData = json.decode(doctorsJson);
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text('Processing Data'),
+      backgroundColor: Colors.green.shade300,
+    ));
+
+    // Constructing user data map
+    Map<String, dynamic> userData = {
+      "Name": userName,
+      "Phone": userPhone
+    };
+
+    // Calling API to get users data
+    dynamic res = await _apiClient.GetUsersdata(userData);
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    // Handling API response
+    var response = json.decode(res);
+
+
+
+
+    if (response['ErrorCode'] == "200") {
+      // Updating local storage with received user data
+      await storage.write(key: 'Name', value: response['Name']);
+      await storage.write(key: 'Phone', value: response['Phone']);
+      await storage.write(key: 'Coin', value: response['Coin']);
+      await storage.write(key: 'Doctors', value: response['Doctors']);
+
+      //print(response['Doctors']);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error: ${response['Message']}'),
+        backgroundColor: Colors.red.shade300,
+      ));
+    }
+  }
+
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SafeArea(
+
+
         child: Column(
           children: [
             Container(
@@ -526,6 +725,12 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.h,
                     ),
+                    child: GestureDetector(
+                      onTap: () async {
+                        // Share the text when tapped
+
+                      // await Share.share('check out my website https://example.com');
+                      },
                     child: Container(
                       height: 80.h,
                       width: MediaQuery.of(context).size.width,
@@ -618,6 +823,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
+                  ),
                   ),
                   SizedBox(
                     height: 18.h,
@@ -1266,4 +1472,26 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+
+}
+
+
+
+
+
+
+
+SnackBar getResultSnackBar(ShareResult result) {
+  return SnackBar(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Share result: ${result.status}"),
+        if (result.status == ShareResultStatus.success)
+          Text("Shared to: ${result.raw}")
+      ],
+    ),
+  );
 }

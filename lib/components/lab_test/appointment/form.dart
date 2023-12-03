@@ -1,15 +1,18 @@
-import 'package:easy_lab/Views/clock/confirmation.dart';
 import 'package:easy_lab/components/lab_test/appointment/confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
 import 'package:easy_lab/Core/api_client.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AppointmentForm extends StatefulWidget {
   // const DoctorForm({Key? key}) : super(key: key);
   // final String packageName;
   // final String packageFee;
   List<String> selectedTestsNames;
+
+
   int selectedPackageFee;
   final String appoinmentDate;
   final String appoinmentSlot;
@@ -39,11 +42,143 @@ class _AppointmentFormState extends State<AppointmentForm> {
   String phoneNo = "";
   String address = "";
   String sampleCollection = 'Lab Collection';
+  String referance = "";
+  late double Latitude ;
+  late double Longitude ;
+  late double Accuracy ;
+
+
+
+   TextEditingController _nameController = TextEditingController();
+   TextEditingController _phoneNoController = TextEditingController();
 
   var sampleCollectionOpt = [
     'Lab Collection',
     'Home Collection',
   ];
+
+
+
+
+  Position _currentPosition = Position(
+    latitude: 0.0,
+    longitude: 0.0,
+    altitude: 0.0,
+    accuracy: 0.0,
+    speed: 0.0,
+    speedAccuracy: 0.0,
+    heading: 0.0,
+    timestamp: DateTime.now(),
+    altitudeAccuracy: 0.0,
+    headingAccuracy: 0.0, // Provide a default value for altitudeAccuracy
+  );
+
+  List<double> locationData =  [0.0, 0.0, 0.0];
+
+  final storage = FlutterSecureStorage();
+
+
+
+
+
+
+
+  @override
+  void initState() {
+     checkdata();
+    _checkLocationPermission();
+    super.initState();
+  }
+
+
+
+
+
+  // Check if auto-login is possible
+  Future<void> checkdata() async {
+    String? userNameTmp = await storage.read(key: 'Name');
+    String? userPhoneTmp = await storage.read(key: 'Phone');
+
+
+    setState(() {
+      patientName = userNameTmp!;
+      phoneNo = userPhoneTmp!;
+
+
+    });
+
+    _nameController = TextEditingController(text: patientName);
+    _phoneNoController = TextEditingController(text: phoneNo);
+  }
+
+
+
+
+
+
+
+
+
+
+
+  Future<void> _checkLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      await _requestLocationPermission();
+    } else if (permission == LocationPermission.deniedForever) {
+      // Handle the case where the user has permanently denied location permission
+      print("Location permission permanently denied");
+    } else {
+      _getLocation();
+    }
+  }
+
+  Future<void> _requestLocationPermission() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      // Handle the case where the user denied location permission
+      print("Location permission denied");
+    } else if (permission == LocationPermission.deniedForever) {
+      // Handle the case where the user permanently denied location permission
+      print("Location permission permanently denied");
+    } else {
+      _getLocation();
+    }
+  }
+
+  Future<void> _getLocation() async {
+
+    print(" getting location: ");
+    try {
+      Geolocator.getPositionStream().listen((Position position) {
+        setState(() {
+          _currentPosition = position;
+        });
+
+        storage.write(key: 'Latitude', value: position.latitude.toString());
+        storage.write(key: 'Longitude', value: position.longitude.toString());
+        storage.write(key: 'Accuracy', value: position.accuracy.toString());
+
+        Latitude= position.latitude;
+        Longitude= position.longitude;
+        Accuracy= position.accuracy;
+
+        locationData.clear;
+        locationData.addAll([Latitude, Longitude, Accuracy]);
+
+      });
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +195,15 @@ class _AppointmentFormState extends State<AppointmentForm> {
         "PhoneNo": phoneNo,
         "Address": address,
         "SampleCollection": sampleCollection,
+        "Referance": referance,
+        "Location": locationData,
       };
       print(appoinmentInfo);
 
-      // dynamic res = await _apiClient.makeAppoinmentHealthPackage(appoinmentInfo);
-      // var response = json.decode(res);
-      // print(response);
-      // print(response['ErrorCode']);
+      dynamic res = await _apiClient.makeAppoinmentHealthPackage(appoinmentInfo);
+      var response = json.decode(res);
+      print(response);
+      print(response['ErrorCode']);
     }
 
     return Scaffold(
@@ -105,9 +242,11 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   decoration: BoxDecoration(
                     color: Color(0xFFE9EDFF),
                     borderRadius: BorderRadius.circular(10.h),
-                  ),
+                  ),//  userName = userPhone;
+
                   child: Center(
                     child: TextField(
+                      controller: _nameController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -120,6 +259,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                         hintStyle: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.bold),
+
                       ),
                     ),
                   ),
@@ -234,6 +374,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: _phoneNoController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -317,6 +458,39 @@ class _AppointmentFormState extends State<AppointmentForm> {
               SizedBox(
                 height: 10.h,
               ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                child: Container(
+                  height: 40.h,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE9EDFF),
+                    borderRadius: BorderRadius.circular(10.h),
+                  ),
+                  child: Center(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        setState(() {
+                          referance = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Referance (Optional)",
+                        hintStyle: TextStyle(
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.w),
                 child: Container(
