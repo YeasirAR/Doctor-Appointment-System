@@ -33,6 +33,8 @@ Future<List<Doctor>> loadDoctors(BuildContext context) async {
   final String doctorsJson = jsonString ?? await DefaultAssetBundle.of(context).loadString('assets/JSON/Doctor_list.json');
 
   //final String doctorsJson = await DefaultAssetBundle.of(context).loadString('assets/JSON/Doctor_list.json');
+
+
   final List<dynamic> doctorsData = json.decode(doctorsJson);
   return doctorsData.map((data) => Doctor.fromJson(data)).toList();
 }
