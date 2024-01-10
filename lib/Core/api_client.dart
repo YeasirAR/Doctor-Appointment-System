@@ -45,7 +45,7 @@ class ApiClient {
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
       return response.data;
     } on DioException  catch (e) {
-      return e.response!.data;
+      return e.response?.data;
     }
   }
 
