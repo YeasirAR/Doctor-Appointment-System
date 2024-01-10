@@ -19,7 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
   bool _showPassword = false;
@@ -54,11 +54,11 @@ class _LoginState extends State<Login> {
       ));
 
       Map<String, dynamic> userData = {
-        "Phone": emailController.text,
+        "Phone": phoneController.text,
         "Password": passwordController.text
       };
 
-      dynamic res = await _apiClient.login(emailController.text,passwordController.text);
+      dynamic res = await _apiClient.login(phoneController.text,passwordController.text);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
@@ -110,12 +110,22 @@ class _LoginState extends State<Login> {
                 Center(
                   child: Image(
                     image: AssetImage(
-                        "assets/images/Logo2.png"
+                        "assets/images/Logo.png"
                     ),
                     height: 120.h,
                     width: 120.w,
                   ),
                 ),
+                // Center(
+                //   child: Text("Easy Lab",
+                //    style: TextStyle(
+                //        color: Color(0xFF2553E5),
+                //        fontWeight: FontWeight.bold,
+                //        fontSize: 20.sp,
+                //        fontFamily: 'Helvetica'
+                //    ),
+                //  ),
+                // ),
 
                 SizedBox(height: 20.h,),
 
@@ -158,11 +168,11 @@ class _LoginState extends State<Login> {
                     ),
                     child: Center(
                       child: TextField(
-                        controller: emailController,
+                        controller: phoneController,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Mobile Number or Email Address",
+                          hintText: "Mobile Number",
                           hintStyle: TextStyle(color: Colors.grey[700],
                               fontWeight: FontWeight.bold),
                         ),
@@ -214,6 +224,34 @@ class _LoginState extends State<Login> {
 
                 InkWell(
                   onTap: () {
+
+
+                    // Validate phone number length
+                    if (phoneController.text.length != 11) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Phone number should be 11 digits.'),
+                        backgroundColor: Colors.red.shade300,
+                      ));
+                      return; // Stop the registration process if validation fails
+                    }
+
+
+                    // Validate phone number length
+                    if (passwordController.text.length < 3) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Password should be at least 6 characters.'),
+                        backgroundColor: Colors.red.shade300,
+                      ));
+                      return; // Stop the registration process if validation fails
+                    }
+
+
+
+
+
+
+
+
                    login();
                     // Navigator.push(context,
                     //   MaterialPageRoute(builder: (context) => MyBottomBar(),),);
@@ -234,7 +272,7 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     child: Center(
-                      child: Text("Log in",
+                      child: Text("Log In",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.sp,
@@ -291,7 +329,7 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don’t have an account? ",
+                    Text("Don’t have an account?  ",
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: Colors.grey[900],
@@ -302,9 +340,9 @@ class _LoginState extends State<Login> {
                         Navigator.push(context, MaterialPageRoute(builder: (
                             context) => Register(),),);
                       },
-                      child: Text("Sign up",
+                      child: Text("Sign Up",
                         style: TextStyle(
-                          fontSize: 12.sp,
+                          fontSize: 18.sp,
                           color: Color(0xFF2553E5),
                           fontWeight: FontWeight.bold,
                         ),

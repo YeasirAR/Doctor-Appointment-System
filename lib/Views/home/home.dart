@@ -15,6 +15,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 import '../../Core/api_client.dart';
@@ -729,7 +730,7 @@ class _HomeState extends State<Home> {
                       onTap: () async {
                         // Share the text when tapped
 
-                      // await Share.share('check out my website https://example.com');
+                      await Share.share('Download Easy Lab And Get Free 40 Tk Referral Bonus');
                       },
                     child: Container(
                       height: 80.h,
@@ -845,53 +846,74 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        "assets/images/twitter.png",
-                        width: 18.w,
-                        height: 18.h,
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL('https://www.facebook.com/medinetmedicalbd');
+                        },
+                        child: Image.asset(
+                          "assets/images/facebook.png",
+                          width: 18,
+                          height: 18,
+                        ),
                       ),
-                      SizedBox(
-                        width: 10.w,
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL('https://www.instagram.com/medinetmedicalofficial/');
+                        },
+                        child: Image.asset(
+                          "assets/images/instagram.png",
+                          width: 18,
+                          height: 18,
+                        ),
                       ),
-                      Image.asset(
-                        "assets/images/instagram.png",
-                        width: 18.w,
-                        height: 18.h,
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL('https://www.messenger.com/');
+                        },
+                        child: Image.asset(
+                          "assets/images/messenger.png",
+                          width: 18,
+                          height: 18,
+                        ),
                       ),
-                      SizedBox(
-                        width: 10.w,
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL('https://www.whatsapp.com/');
+                        },
+                        child: Image.asset(
+                          "assets/images/whatsapp.png",
+                          width: 18,
+                          height: 18,
+                        ),
                       ),
-                      Image.asset(
-                        "assets/images/messenger.png",
-                        width: 18.w,
-                        height: 18.h,
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL('https://youtube.com/@medinetmedicalofficial');
+                        },
+                        child: Image.asset(
+                          "assets/images/YouTube.png",
+                          width: 18,
+                          height: 18,
+                        ),
                       ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/whatsapp.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/linkedin.png",
-                        width: 18.w,
-                        height: 18.h,
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        "assets/images/gmail.png",
-                        width: 18.w,
-                        height: 18.h,
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          _launchURL('mailto:someone@example.com');
+                        },
+                        child: Image.asset(
+                          "assets/images/gmail.png",
+                          width: 18,
+                          height: 18,
+                        ),
                       ),
                     ],
                   ),
+
                   SizedBox(
                     height: 40.h,
                   ),
@@ -1476,6 +1498,14 @@ class _HomeState extends State<Home> {
 
 }
 
+
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 
 

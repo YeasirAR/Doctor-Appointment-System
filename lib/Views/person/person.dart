@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import 'dart:io';
 import '../../info/Address/address.dart';
+import '../loginReg/Personalinfo.dart';
 import '../loginReg/login.dart';
 
 
@@ -20,8 +21,8 @@ class _PersonState extends State<Person> {
   String? userName = "";
   String? userPhone = "";
   String? userType = "";
-  String? userCoin = "6000";
-
+  String? userCoin = "0";
+  File? _imageFile;
 
 
   @override
@@ -37,6 +38,8 @@ class _PersonState extends State<Person> {
     String? userTypeTmp = await storage.read(key: 'User_Type');
     String? userPhoneTmp = await storage.read(key: 'Phone');
     String? CoinPhoneTmp = await storage.read(key: 'Coin');
+    _imageFile = await getImageFile();
+
     setState(() {
       userName = userNameTmp;
       userPhone = userPhoneTmp!;
@@ -48,6 +51,21 @@ class _PersonState extends State<Person> {
    
   }
 
+  Future<File?> getImageFile() async {
+    // Read the stored image path from secure storage
+    String? imagePath = await storage.read(key: 'img');
+
+    // If imagePath is null or empty, return null
+    if (imagePath == null || imagePath.isEmpty) {
+      return null;
+    }
+
+    // Create a File object from the stored image path
+    File imageFile = File(imagePath);
+
+    // Return the File object representing the image file
+    return imageFile;
+  }
 
 
 
@@ -73,7 +91,12 @@ class _PersonState extends State<Person> {
                       padding: EdgeInsets.all(5.h),
                       child: Center(
                         child: CircleAvatar(
-                          backgroundImage: AssetImage("assets/images/doctor.png"),
+                          backgroundImage: _imageFile != null
+                              ? FileImage(File(_imageFile!.path))
+                              : AssetImage("assets/images/doctor.png") as ImageProvider<Object>?,
+
+
+
                           radius: 20.h,
                         ),
                       ),
@@ -135,7 +158,19 @@ class _PersonState extends State<Person> {
             SizedBox(height: 20.h,),
 
             //personal details
-            Padding(
+        InkWell(
+          onTap: () {
+
+            Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder:
+                  (context)=>Personalinfo(),
+
+              ),
+                  (Route<dynamic> route) => false,
+            );
+          },
+
+          child : Padding(
               padding: EdgeInsets.only(left: 20.w,),
               child: Row(
                 children: [
@@ -148,6 +183,7 @@ class _PersonState extends State<Person> {
                 ],
               ),
             ),
+        ),
             SizedBox(height: 20.h,),
 
             //address

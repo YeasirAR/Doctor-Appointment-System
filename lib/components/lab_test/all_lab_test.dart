@@ -531,7 +531,7 @@ class _AllTestState extends State<AllTest> {
                                     child: Text(
                                       text2!.toString(),
                                       style: TextStyle(
-                                        color: Color(0xFF4368FF),
+                                        color: Colors.white,
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.bold,
                                       ),

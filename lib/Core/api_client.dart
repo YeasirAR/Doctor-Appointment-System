@@ -11,6 +11,7 @@ class ApiClient {
           data: data,
           queryParameters: {'apikey': ApiSecret.apiKey},
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+     print(response.data);
       return response.data;
     } on DioException  catch (e) {
       return e.response!.data;
@@ -34,7 +35,19 @@ class ApiClient {
   }
 
 
-
+  Future<dynamic> updateUser(Map<String, dynamic>? data) async {
+    try {
+      Response response = await _dio.post(
+          'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=updateu',
+          data: data,
+          queryParameters: {'apikey': ApiSecret.apiKey},
+          options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+      print(data);
+      return response.data;
+    } on DioException  catch (e) {
+      return e.response!.data;
+    }
+  }
 
   Future<dynamic> GetUsersdata(Map<String, dynamic>? data) async {
     try {
@@ -45,7 +58,7 @@ class ApiClient {
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
       return response.data;
     } on DioException  catch (e) {
-      return e.response?.data;
+      return e.response!.data;
     }
   }
 
@@ -118,17 +131,35 @@ Future<dynamic> makeAppoinment(Map<String, dynamic>? appoinmentInfo) async {
     }
   }
 
-Future<dynamic> makeAppoinmentHealthPackage(Map<String, dynamic>? appoinmentInfo) async {
+Future<dynamic> makeAppoinmentLabtest(Map<String, dynamic>? appoinmentInfo) async {
+    try {
+      Response response = await _dio.post(
+          'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=AppoinmentLabtest',
+          data: appoinmentInfo,
+          queryParameters: {'apikey': ApiSecret.apiKey},
+          options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+      print(response.data);
+      return response.data;
+    } on DioException  catch (e) {
+      return e.response!.data;
+    }
+  }
+
+  Future<dynamic> makeAppoinmentHealthPackage(Map<String, dynamic>? appoinmentInfo) async {
     try {
       Response response = await _dio.post(
           'https://easylab.amarfuel.com/ApiDATA/identity/v2/auth.php?Query=AppoinmentHealthPackage',
           data: appoinmentInfo,
           queryParameters: {'apikey': ApiSecret.apiKey},
           options: Options(headers: {'X-LoginRadius-Sott': ApiSecret.sott}));
+      print(response.data);
       return response.data;
     } on DioException  catch (e) {
       return e.response!.data;
     }
   }
+
+
+
 }
 

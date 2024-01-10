@@ -16,12 +16,6 @@ class Kidney extends StatefulWidget {
 }
 
 class _KidneyState extends State<Kidney> {
-
-
-  List<String> data = ["Urea" , "Creatinine","Uric Acid","Total Protein Ag ratio\n(Albumin, Globulin Ratio)","Globulin Ratio","Electrolyte","eGFR","Urine R/E","CCR","ACR","USG of KUB"];
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,20 +205,26 @@ class _KidneyState extends State<Kidney> {
                   _buildPackageContainer(
                       text: "Medinet Renal (Kidney) Health Check-up Package"),
                   SizedBox(height: 35.h),
-
-
-
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column( children: [for(int i=0;i<data.length;i++)...{
-                        _buildFeatureRow(
-                          icon: Icons.circle,
-                          text:data[i],
-                      
-                        )
-                      },],),
-                    ),
+                  _buildFeatureRow(
+                    icon: Icons.circle,
+                    text: "Urea",
                   ),
+                  _buildFeatureRow(
+                    icon: Icons.circle,
+                    text: "Creatinine",
+                  ),
+                  _buildFeatureRow(icon: Icons.circle, text: "Uric Acid"),
+                  _buildFeatureRow(
+                      icon: Icons.circle,
+                      text:
+                          "Total Protein Ag ratio\n(Albumin, Globulin Ratio)"),
+                  _buildFeatureRow(icon: Icons.circle, text: "Globulin Ratio"),
+                  _buildFeatureRow(icon: Icons.circle, text: "Electrolyte"),
+                  _buildFeatureRow(icon: Icons.circle, text: "eGFR"),
+                  _buildFeatureRow(icon: Icons.circle, text: "Urine R/E"),
+                  _buildFeatureRow(icon: Icons.circle, text: "CCR"),
+                  _buildFeatureRow(icon: Icons.circle, text: "ACR"),
+                  _buildFeatureRow(icon: Icons.circle, text: "USG of KUB"),
                   SizedBox(height: 20.h),
                 ],
               ),

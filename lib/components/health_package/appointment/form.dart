@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
 import 'package:easy_lab/Core/api_client.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AppointmentForm extends StatefulWidget {
   // const DoctorForm({Key? key}) : super(key: key);
@@ -40,10 +41,92 @@ class _AppointmentFormState extends State<AppointmentForm> {
   String address = "";
   String sampleCollection = 'Lab Collection';
 
+  String userBirthday = "";
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _phoneNoController = TextEditingController();
+  TextEditingController _dateControler = TextEditingController();
+  TextEditingController WeightController = TextEditingController();
+  TextEditingController AddressController = TextEditingController();
+
+  final storage = FlutterSecureStorage();
+
+
+
+
+
+
+
   var sampleCollectionOpt = [
     'Lab Collection',
     'Home Collection',
   ];
+
+
+
+  @override
+  void initState() {
+    checkdata();
+    super.initState();
+  }
+
+
+
+
+  Future<void> checkdata() async {
+    String? userNameTmp = await storage.read(key: 'Name');
+    String? userPhoneTmp = await storage.read(key: 'Phone');
+    String? userageTmp = await storage.read(key: 'age');
+    String? userweightTmp = await storage.read(key: 'weight');
+    String? userAddressTmp = await storage.read(key: 'Address');
+
+
+    setState(() {
+      patientName = userNameTmp!;
+      phoneNo = userPhoneTmp!;
+      userBirthday = userageTmp ?? "";
+      patientWeight = userweightTmp ?? "";
+      address = userAddressTmp ?? "";
+
+
+    });
+
+    _nameController = TextEditingController(text: patientName);
+    _phoneNoController = TextEditingController(text: phoneNo);
+    _dateControler = TextEditingController(text: userBirthday);
+    WeightController = TextEditingController(text: patientWeight);
+    AddressController = TextEditingController(text: address);
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+  Future<void> _selectDate() async {
+    DateTime? _picked= await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1970),
+      lastDate: DateTime(2100),
+    );
+
+    if(_picked != null){
+      setState(() {
+        _dateControler.text = _picked.toString().split(" ")[0];
+      });
+    }
+
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +136,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
         "PackageFee": widget.packageFee,
         "AppoinmentDate": widget.appoinmentDate,
         "AppoinmentSlot": widget.appoinmentSlot,
+        "dateofbirth": _dateControler.text,
         "PatientName": patientName,
-        "PatientAgeYear": patientAgeYear,
-        "PatientAgeMonth": patientAgeMonth,
         "PatientWeight": patientWeight,
         "PhoneNo": phoneNo,
         "Address": address,
@@ -63,10 +145,10 @@ class _AppointmentFormState extends State<AppointmentForm> {
       };
       print(appoinmentInfo);
 
-      // dynamic res = await _apiClient.makeAppoinmentHealthPackage(appoinmentInfo);
-      // var response = json.decode(res);
-      // print(response);
-      // print(response['ErrorCode']);
+      dynamic res = await _apiClient.makeAppoinmentHealthPackage(appoinmentInfo);
+      var response = json.decode(res);
+      print(response);
+      print(response['ErrorCode']);
     }
 
     return Scaffold(
@@ -108,6 +190,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: _nameController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -125,70 +208,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 25.w),
-                    child: Container(
-                      height: 40.h,
-                      width: 150.w,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE9EDFF),
-                        borderRadius: BorderRadius.circular(10.h),
-                      ),
-                      child: Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (value) {
-                            setState(() {
-                              patientAgeYear = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Age(Year)",
-                            hintStyle: TextStyle(
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(right: 25.w),
-                    child: Container(
-                      height: 40.h,
-                      width: 150.w,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE9EDFF),
-                        borderRadius: BorderRadius.circular(10.h),
-                      ),
-                      child: Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (value) {
-                            setState(() {
-                              patientAgeMonth = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Age(Month)",
-                            hintStyle: TextStyle(
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+
+
               SizedBox(
                 height: 10.h,
               ),
@@ -203,6 +224,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: WeightController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -234,6 +256,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: _phoneNoController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -260,11 +283,51 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   height: 40.h,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFFE9EDFF), width: 2),
+                    borderRadius: BorderRadius.circular(10.h),
+                  ),
+
+                  child: Center(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: _dateControler,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Select Birthyear",
+                        filled: true,
+                        fillColor: Color(0xFFEEEEEE),
+                        prefixIcon: Icon(Icons.calendar_today),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none
+                        ),
+                      ),
+
+                      readOnly: true,
+                      onTap: (){
+
+                        _selectDate();
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+
+              SizedBox(
+                height: 10.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                child: Container(
+                  height: 40.h,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
                     color: Color(0xFFE9EDFF),
                     borderRadius: BorderRadius.circular(10.h),
                   ),
                   child: Center(
                     child: TextField(
+                      controller: AddressController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -408,11 +471,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
               InkWell(
                 onTap: () {
                   if (patientName == "" ||
-                      patientAgeYear == "" ||
-                      patientAgeMonth == "" ||
                       patientWeight == "" ||
-                      phoneNo == "" ||
-                      address == ""
+                      phoneNo == ""
                       ) {
                     // showDialog(
                     //   context: context,

@@ -230,7 +230,7 @@ class _OffersState extends State<Offers> {
                 // ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 25.0),
+                  padding: const EdgeInsets.only(left: 30.0, right: 70.0),
                   child: Text(
                     "Buy our membership card to enjoy 25% discount on all lab test around the year.",
                     style: TextStyle(
@@ -388,16 +388,15 @@ class _OffersState extends State<Offers> {
                 SafeArea(
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+
                       children: [
                         SizedBox(height: 15.h),
-
-
-
                         Padding(
                           padding: EdgeInsets.only(left: 30.w, right: 25.w),
                           child: SingleChildScrollView (
                           child: Container(
-                            height: 160.h,
+                            height: 180.h,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               color: Color(0xFFE9EDFF),
@@ -594,6 +593,7 @@ class _OffersState extends State<Offers> {
 
                         SizedBox(height: 20.h),
 
+
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -621,25 +621,8 @@ class _OffersState extends State<Offers> {
                     ),
                   ),
                 ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               ]),
             ),
-
-
           ],
         ),
       ),

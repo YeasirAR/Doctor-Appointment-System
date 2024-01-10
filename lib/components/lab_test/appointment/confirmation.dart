@@ -12,8 +12,8 @@ class ConfirmAppoinment extends StatelessWidget {
   final String appoinmentDate;
   final String appoinmentSlot;
   final String patientName;
-  final String patientAgeYear;
-  final String patientAgeMonth;
+  final String dateofbirth;
+
   final String patientWeight;
   final String sampleCollection;
   final String address;
@@ -27,8 +27,7 @@ class ConfirmAppoinment extends StatelessWidget {
     required this.appoinmentDate,
     required this.appoinmentSlot,
     required this.patientName,
-    required this.patientAgeYear,
-    required this.patientAgeMonth,
+    required this.dateofbirth,
     required this.patientWeight,
     required this.phoneNo,
     required this.address,

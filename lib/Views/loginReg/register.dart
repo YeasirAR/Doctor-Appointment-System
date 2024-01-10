@@ -5,8 +5,9 @@ import 'package:easy_lab/Views/loginReg/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_lab/Core/api_client.dart';
-import 'package:easy_lab/utils/validator.dart';
-import 'dart:developer';
+
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 
@@ -20,7 +21,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController NameController = TextEditingController();
   final TextEditingController GenderController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -29,7 +30,7 @@ class _RegisterState extends State<Register> {
   bool _showPassword = false;
   bool isChecked = false;
   String selectedGender = 'Male';
-
+  final storage = const FlutterSecureStorage();
 
 
   Future<void> registerUsers() async {
@@ -43,8 +44,8 @@ class _RegisterState extends State<Register> {
         "Email": [
           {
             "Type": "Primary",
-            "Value": emailController.text,
-            "Phone": emailController.text
+            "Value": phoneController.text,
+            "Phone": phoneController.text
           }
         ],
         "Password": passwordController.text,
@@ -65,6 +66,20 @@ class _RegisterState extends State<Register> {
       var response = json.decode(res);
       print(response['ErrorCode']);
       if (response['ErrorCode'] == null) {
+
+
+
+
+        await storage.write(key: 'Name', value: response['Name']);
+        await storage.write(key: 'User_Type', value: response['User_Type']);
+        await storage.write(key: 'Phone', value: response['Phone']);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text( response['Message']),
+    backgroundColor: Colors.green.shade300,
+    ));
+
+
+
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>  MyBottomBar()));
         //  Navigator.push(context, MaterialPageRoute(builder: (context) => MyBottomBar(),),);onPressed: registerUsers,
@@ -97,12 +112,24 @@ class _RegisterState extends State<Register> {
               Center(
                 child: Image(
                   image: AssetImage(
-                      "assets/images/Logo2.png"
+                      "assets/images/Logo.png"
                   ),
                   height: 120.h,
                   width:120.w,
                 ),
               ),
+
+              // Center(
+              //   child: Text("Easy Lab",
+              //     style: TextStyle(
+              //         color: Color(0xFF2553E5),
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 20.sp,
+              //         fontFamily: 'Helvetica'
+              //     ),
+              //   ),
+              // ),
+
 
               SizedBox(height: 20.h,),
 
@@ -157,7 +184,7 @@ class _RegisterState extends State<Register> {
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Full Name",
+                        hintText: "Your Full Name",
                         hintStyle: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -179,11 +206,11 @@ class _RegisterState extends State<Register> {
                   ),
                   child: Center(
                     child: TextField(
-                      controller: emailController,
+                      controller: phoneController,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Mobile Number or Email Address",
+                        hintText: "Mobile Number",
                         hintStyle: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -208,7 +235,6 @@ class _RegisterState extends State<Register> {
                   child: Center(
                     child: TextField(
                       textAlign: TextAlign.center,
-                      obscureText: true,
                       controller: ReferralController,
                       decoration: InputDecoration(
 
@@ -248,7 +274,7 @@ class _RegisterState extends State<Register> {
                 ),
               ),
 
-              SizedBox(height: 80.h,),
+              SizedBox(height: 10.h,),
 
               //checkbox
               Row(
@@ -267,7 +293,7 @@ class _RegisterState extends State<Register> {
                     children: [
                       Text("I agree with the ",
                         style: TextStyle(
-                          fontSize: 12.sp,
+                          fontSize: 14.sp,
                           color: Colors.grey[900],
                         ),
                       ),
@@ -277,7 +303,7 @@ class _RegisterState extends State<Register> {
                         },
                         child: Text("Terms & Conditions",
                           style: TextStyle(
-                            fontSize: 12.sp,
+                            fontSize: 14.sp,
                             color: Color(0xFF2553E5),
                             fontWeight: FontWeight.w600,
                           ),
@@ -293,6 +319,39 @@ class _RegisterState extends State<Register> {
               //create account
               InkWell(
                 onTap: () {
+
+
+                  // Validate name length
+                  if (NameController.text.length < 6) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Name should be at least 6 characters.'),
+                      backgroundColor: Colors.red.shade300,
+                    ));
+                    return; // Stop the registration process if validation fails
+                  }
+
+                  // Validate phone number length
+                  if (phoneController.text.length != 11) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Phone number should be 11 digits.'),
+                      backgroundColor: Colors.red.shade300,
+                    ));
+                    return; // Stop the registration process if validation fails
+                  }
+
+                  // Validate password length
+                  if (passwordController.text.length < 6) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Password should be at least 6 characters.'),
+                      backgroundColor: Colors.red.shade300,
+                    ));
+                    return; // Stop the registration process if validation fails
+                  }
+
+
+
+
+
 
                   if(isChecked == true) {
                     registerUsers();
@@ -348,7 +407,7 @@ class _RegisterState extends State<Register> {
                 children: [
                   Text("Already have an account? ",
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 14.sp,
                       color: Colors.grey[900],
                     ),
                   ),
@@ -358,7 +417,7 @@ class _RegisterState extends State<Register> {
                     },
                     child: Text("Log in",
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 16.sp,
                         color: Color(0xFF2553E5),
                         fontWeight: FontWeight.w600,
                       ),

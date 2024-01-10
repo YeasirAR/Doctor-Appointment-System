@@ -33,8 +33,6 @@ Future<List<Doctor>> loadDoctors(BuildContext context) async {
   final String doctorsJson = jsonString ?? await DefaultAssetBundle.of(context).loadString('assets/JSON/Doctor_list.json');
 
   //final String doctorsJson = await DefaultAssetBundle.of(context).loadString('assets/JSON/Doctor_list.json');
-
-
   final List<dynamic> doctorsData = json.decode(doctorsJson);
   return doctorsData.map((data) => Doctor.fromJson(data)).toList();
 }
@@ -71,14 +69,16 @@ class DoctorList extends StatelessWidget {
                 crossAxisCount: 2, // 2 columns
                 crossAxisSpacing: 5.0,
                 mainAxisSpacing: 5.0,
+                mainAxisExtent: 250,
               ),
               itemCount: doctors!.length,
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
                 return Card(
                   elevation: 5,
+
                   child: Padding(
-                    padding: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(20.0),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

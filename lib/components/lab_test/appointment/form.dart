@@ -32,8 +32,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
   final ApiClient _apiClient = ApiClient();
 
   String patientName = "";
-  String patientAgeYear = "";
-  String patientAgeMonth = "";
   String patientWeight = "";
   String patientProblem = "";
   String patientReport = "";
@@ -42,7 +40,13 @@ class _AppointmentFormState extends State<AppointmentForm> {
   String phoneNo = "";
   String address = "";
   String sampleCollection = 'Lab Collection';
-  String referance = "";
+
+
+  String userBirthday = "";
+  String userWeight = "";
+  String userAddress = "";
+
+
   late double Latitude ;
   late double Longitude ;
   late double Accuracy ;
@@ -51,7 +55,9 @@ class _AppointmentFormState extends State<AppointmentForm> {
 
    TextEditingController _nameController = TextEditingController();
    TextEditingController _phoneNoController = TextEditingController();
-
+   TextEditingController _dateControler = TextEditingController();
+   TextEditingController WeightController = TextEditingController();
+   TextEditingController AddressController = TextEditingController();
   var sampleCollectionOpt = [
     'Lab Collection',
     'Home Collection',
@@ -98,26 +104,30 @@ class _AppointmentFormState extends State<AppointmentForm> {
   Future<void> checkdata() async {
     String? userNameTmp = await storage.read(key: 'Name');
     String? userPhoneTmp = await storage.read(key: 'Phone');
+    String? userageTmp = await storage.read(key: 'age');
+    String? userweightTmp = await storage.read(key: 'weight');
+    String? userAddressTmp = await storage.read(key: 'Address');
 
 
     setState(() {
       patientName = userNameTmp!;
       phoneNo = userPhoneTmp!;
+      userBirthday = userageTmp ?? ""; // Set to empty string if userageTmp is null
+      userWeight = userweightTmp ?? "";
+      userAddress = userAddressTmp ?? "";
 
 
     });
 
     _nameController = TextEditingController(text: patientName);
     _phoneNoController = TextEditingController(text: phoneNo);
+    _dateControler = TextEditingController(text: userBirthday);
+    WeightController = TextEditingController(text: userWeight);
+    AddressController = TextEditingController(text: userAddress);
+
+
+
   }
-
-
-
-
-
-
-
-
 
 
 
@@ -163,8 +173,12 @@ class _AppointmentFormState extends State<AppointmentForm> {
         Longitude= position.longitude;
         Accuracy= position.accuracy;
 
-        locationData.clear;
-        locationData.addAll([Latitude, Longitude, Accuracy]);
+       // locationData.clear;
+       // locationData.addAll([Latitude, Longitude, Accuracy]);
+
+        locationData[0] = Latitude;
+        locationData[1] = Longitude;
+        locationData[2] = Accuracy;
 
       });
     } catch (e) {
@@ -173,6 +187,21 @@ class _AppointmentFormState extends State<AppointmentForm> {
   }
 
 
+  Future<void> _selectDate() async {
+    DateTime? _picked= await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1970),
+      lastDate: DateTime(2100),
+    );
+
+    if(_picked != null){
+      setState(() {
+        _dateControler.text = _picked.toString().split(" ")[0];
+      });
+    }
+
+  }
 
 
 
@@ -189,18 +218,16 @@ class _AppointmentFormState extends State<AppointmentForm> {
         "AppoinmentDate": widget.appoinmentDate,
         "AppoinmentSlot": widget.appoinmentSlot,
         "PatientName": patientName,
-        "PatientAgeYear": patientAgeYear,
-        "PatientAgeMonth": patientAgeMonth,
-        "PatientWeight": patientWeight,
+        "dateofbirth": _dateControler.text,
+        "PatientWeight": WeightController.text,
         "PhoneNo": phoneNo,
         "Address": address,
         "SampleCollection": sampleCollection,
-        "Referance": referance,
         "Location": locationData,
       };
       print(appoinmentInfo);
 
-      dynamic res = await _apiClient.makeAppoinmentHealthPackage(appoinmentInfo);
+      dynamic res = await _apiClient.makeAppoinmentLabtest(appoinmentInfo);
       var response = json.decode(res);
       print(response);
       print(response['ErrorCode']);
@@ -268,67 +295,42 @@ class _AppointmentFormState extends State<AppointmentForm> {
               SizedBox(
                 height: 10.h,
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 25.w),
-                    child: Container(
-                      height: 40.h,
-                      width: 150.w,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE9EDFF),
-                        borderRadius: BorderRadius.circular(10.h),
-                      ),
-                      child: Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (value) {
-                            setState(() {
-                              patientAgeYear = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Age(Year)",
-                            hintStyle: TextStyle(
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                child: Container(
+                  height: 40.h,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFFE9EDFF), width: 2),
+                    borderRadius: BorderRadius.circular(10.h),
+                  ),
+
+                  child: Center(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: _dateControler,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Select Birthyear",
+                        filled: true,
+                        fillColor: Color(0xFFEEEEEE),
+                        prefixIcon: Icon(Icons.calendar_today),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none
                         ),
                       ),
+
+                      readOnly: true,
+                      onTap: (){
+
+                        _selectDate();
+                      },
                     ),
                   ),
-                  Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(right: 25.w),
-                    child: Container(
-                      height: 40.h,
-                      width: 150.w,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE9EDFF),
-                        borderRadius: BorderRadius.circular(10.h),
-                      ),
-                      child: Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (value) {
-                            setState(() {
-                              patientAgeMonth = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Age(Month)",
-                            hintStyle: TextStyle(
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
+
+
               SizedBox(
                 height: 10.h,
               ),
@@ -343,6 +345,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: WeightController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -406,6 +409,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: AddressController,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
                         setState(() {
@@ -455,37 +459,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 ),
               ),
 
-              SizedBox(
-                height: 10.h,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w),
-                child: Container(
-                  height: 40.h,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE9EDFF),
-                    borderRadius: BorderRadius.circular(10.h),
-                  ),
-                  child: Center(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {
-                        setState(() {
-                          referance = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Referance (Optional)",
-                        hintStyle: TextStyle(
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               SizedBox(
                 height: 10.h,
               ),
@@ -611,12 +584,12 @@ class _AppointmentFormState extends State<AppointmentForm> {
               // ),
               InkWell(
                 onTap: () {
+
                   if (patientName == "" ||
-                      patientAgeYear == "" ||
-                      patientAgeMonth == "" ||
-                      patientWeight == "" ||
+                      userBirthday == "" ||
+                      userWeight == "" ||
                       phoneNo == "" ||
-                      address == ""
+                      userAddress == ""
                       ) {
                     // showDialog(
                     //   context: context,
@@ -659,8 +632,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                           appoinmentDate: widget.appoinmentDate,
                           appoinmentSlot: widget.appoinmentSlot,
                           patientName: patientName,
-                          patientAgeYear: patientAgeYear,
-                          patientAgeMonth: patientAgeMonth,
+                          dateofbirth: _dateControler.text,
                           patientWeight: patientWeight,
                           phoneNo : phoneNo,
                           address : address,
